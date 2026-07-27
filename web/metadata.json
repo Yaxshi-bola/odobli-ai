@@ -1,0 +1,6 @@
+{
+  "name": "Odobli.ai",
+  "description": "Oila uchun foydali kundalik yordamchi — Pazanda AI, Ertaklar, Lifehacklar, Topishmoqlar va Matematik masalalar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

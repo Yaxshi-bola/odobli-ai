@@ -1,0 +1,19 @@
+# Environment & Secrets
+.env
+*.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+
+# Node & Build
+node_modules/
+dist/
+.vercel/
+.idea/
+.vscode/
