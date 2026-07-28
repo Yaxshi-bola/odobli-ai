@@ -16,7 +16,7 @@ class Config:
     SUPABASE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", os.getenv("SUPABASE_KEY", ""))
     
     # Mini App
-    WEBAPP_URL: str = os.getenv("WEBAPP_URL", os.getenv("MINI_APP_URL", "https://web-odobli-ai.vercel.app"))
+    WEBAPP_URL: str = os.getenv("WEBAPP_URL", os.getenv("MINI_APP_URL", "https://web-nine-livid-hkkpqpjfb1.vercel.app"))
     
     # Premium
     PREMIUM_PRICE: int = int(os.getenv("PREMIUM_PRICE", "25000"))
