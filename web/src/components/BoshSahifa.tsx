@@ -90,29 +90,29 @@ export const BoshSahifa: React.FC = () => {
   const featuredLifehack = lifehacks[0];
 
   const categories = [
-    { id: 'pazanda', label: 'Pazanda AI', icon: '🍳', color: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600' },
-    { id: 'bolajon', label: 'Ertaklar', icon: '🧚', color: 'bg-purple-50 dark:bg-purple-950/40 text-purple-600' },
-    { id: 'lifehacklar', label: 'Lifehack', icon: '💡', color: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600' },
-    { id: 'bolajon', label: 'Topishmoq', icon: '🧩', color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-600' },
+    { id: 'pazanda', label: 'Pazanda AI', icon: '🍳', color: 'bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm shadow-amber-500/30' },
+    { id: 'bolajon', label: 'Ertaklar', icon: '🧚', color: 'bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-sm shadow-purple-500/30' },
+    { id: 'lifehacklar', label: 'Lifehack', icon: '💡', color: 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm shadow-emerald-500/30' },
+    { id: 'bolajon', label: 'Topishmoq', icon: '🧩', color: 'bg-gradient-to-br from-rose-500 to-rose-600 text-white shadow-sm shadow-rose-500/30' },
   ];
 
   return (
     <div className="space-y-4 pb-28 pt-1">
       
       {/* Sticky Search Input Bar */}
-      <div className="sticky top-14 z-30 flex items-center gap-2 bg-white/80 dark:bg-[#121212]/80 backdrop-blur-md py-1">
+      <div className="sticky top-14 z-30 flex items-center gap-2 bg-[#FAF6F0]/90 dark:bg-[#0F0E13]/90 backdrop-blur-md py-1">
         <div 
           onClick={() => setShowFilterModal(true)}
-          className="flex-1 bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-800 rounded-full px-4 py-2.5 shadow-xs flex items-center gap-2.5 cursor-pointer hover:border-[#5A1827] transition-colors"
+          className="flex-1 bg-white dark:bg-[#191821] border border-[#EFEADF] dark:border-[#2A2836] rounded-full px-4 py-2.5 shadow-sm flex items-center gap-2.5 cursor-pointer hover:border-[#5A1827] transition-all"
         >
-          <Search className="w-4 h-4 text-gray-400" />
-          <span className="text-xs font-medium text-gray-400 line-clamp-1">
+          <Search className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+          <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 line-clamp-1">
             {t("Masalliq, retsept yoki ertak qidiring...")}
           </span>
         </div>
         <button 
           onClick={() => setShowFilterModal(true)}
-          className="w-10 h-10 rounded-full bg-[#5A1827] text-white flex items-center justify-center shadow-md shrink-0 hover:bg-[#3E101B] transition-colors active:scale-95"
+          className="w-10 h-10 rounded-full bg-gradient-to-r from-[#5A1827] to-[#7A2135] text-white flex items-center justify-center shadow-md shrink-0 hover:opacity-95 transition-transform active:scale-95"
           title="Qidirish"
         >
           <Search className="w-4 h-4" />
@@ -126,12 +126,12 @@ export const BoshSahifa: React.FC = () => {
             key={cat.label}
             whileTap={{ scale: 0.95 }}
             onClick={() => setActiveTab(cat.id as any)}
-            className="flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-xs cursor-pointer hover:shadow-md transition-all text-center group"
+            className="flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white dark:bg-[#191821] border border-[#EFEADF] dark:border-[#2A2836] shadow-sm cursor-pointer hover:shadow-md transition-all text-center group"
           >
-            <div className={`w-11 h-11 rounded-2xl ${cat.color} flex items-center justify-center text-xl mb-1 group-hover:scale-110 transition-transform`}>
+            <div className={`w-11 h-11 rounded-2xl ${cat.color} flex items-center justify-center text-xl mb-1.5 group-hover:scale-105 transition-transform`}>
               {cat.icon}
             </div>
-            <span className="text-[11px] font-bold text-gray-800 dark:text-gray-200 truncate w-full">
+            <span className="text-[11.5px] font-bold text-stone-800 dark:text-stone-200 truncate w-full">
               {t(cat.label)}
             </span>
           </motion.div>
