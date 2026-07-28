@@ -115,7 +115,7 @@
   transition: all 0.2s ease;
 }
 
-.btn-[#F59E0B]:hover {
+.btn-amber-cta:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(245, 158, 11, 0.45);
 }
