@@ -27,7 +27,7 @@ export interface UserProgress {
   oxirgi_faollik_sanasi: string;
 }
 
-export type IngredientCategory = 'sabzavot' | 'gosht' | 'sut_mahsuloti' | 'dukkakli' | 'ziravor' | 'boshqa';
+export type IngredientCategory = 'sabzavot' | 'meva' | 'gosht' | 'sut_mahsuloti' | 'dukkakli' | 'qandolat' | 'yogi' | 'ziravor' | 'boshqa';
 
 export interface Ingredient {
   id: string;

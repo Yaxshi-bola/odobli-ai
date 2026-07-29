@@ -121,6 +121,31 @@ export const PazandaAI: React.FC = () => {
   const getShoppingItemCategory = (nomi: string): string => {
     const name = nomi.toLowerCase();
     if (
+      name.includes('olma') || name.includes('nok') || name.includes('qulupnay') || 
+      name.includes('avokado') || name.includes('limon') || name.includes('laym') || 
+      name.includes('uzum') || name.includes('orik') || name.includes('o\'rik') || 
+      name.includes('shoftoli') || name.includes('behi') || name.includes('anor') || 
+      name.includes('banan') || name.includes('apelsin') || name.includes('mandarin') || 
+      name.includes('malina') || name.includes('chernika') || name.includes('klukva')
+    ) {
+      return 'meva';
+    }
+    if (
+      name.includes('yog') || name.includes('yog\'') || name.includes('paxta yog') || 
+      name.includes('zaytun yog') || name.includes('kunjut yog') || name.includes('sous') || 
+      name.includes('tomat') || name.includes('mayonez') || name.includes('ketchup') || name.includes('sirka')
+    ) {
+      return 'yogi';
+    }
+    if (
+      name.includes('kakao') || name.includes('shokolad') || name.includes('shakar') || 
+      name.includes('vanil') || name.includes('razraxlitel') || name.includes('soda') || 
+      name.includes('sgushchenka') || name.includes('djem') || name.includes('pechenye') || 
+      name.includes('kraxmal') || name.includes('ekstrakt') || name.includes('asal') || name.includes('qand')
+    ) {
+      return 'qandolat';
+    }
+    if (
       name.includes('kartoshka') || name.includes('sabzi') || name.includes('piyoz') || 
       name.includes('pomidor') || name.includes('bodring') || name.includes('karam') || 
       name.includes('sarimsoq') || name.includes('ko\'kat') || name.includes('kashnich') || 
@@ -128,7 +153,7 @@ export const PazandaAI: React.FC = () => {
       name.includes('sholgom') || name.includes('qovoq') || name.includes('ismaloq') || 
       name.includes('rayhon') || name.includes('yalpiz') || name.includes('zanjabil') || 
       name.includes('qo\'ziqorin') || name.includes('qabachki') || name.includes('lavlagi') || 
-      name.includes('rediska') || name.includes('rukola') || name.includes('zaytun') || name.includes('oliva')
+      name.includes('rediska') || name.includes('rukola') || name.includes('zaytun') || name.includes('oliva') || name.includes('zukkini')
     ) {
       return 'sabzavot';
     }
@@ -157,21 +182,34 @@ export const PazandaAI: React.FC = () => {
       name.includes('makaron') || name.includes('grechka') || name.includes('manniy') || 
       name.includes('ugra') || name.includes('lag\'mon') || name.includes('lagmon') || 
       name.includes('noodle') || name.includes('somsa') || name.includes('manti') || 
-      name.includes('yasmiq') || name.includes('bulgur') || name.includes('kuskus') || name.includes('gerkules')
+      name.includes('yasmiq') || name.includes('bulgur') || name.includes('kuskus') || name.includes('gerkules') || name.includes('bodom uni')
     ) {
       return 'dukkakli';
     }
     if (
       name.includes('zira') || name.includes('murch') || name.includes('tuz') || 
-      name.includes('shakar') || name.includes('ziravor') || name.includes('lavr') || 
+      name.includes('ziravor') || name.includes('lavr') || 
       name.includes('kunjut') || name.includes('paprika') || name.includes('zirk') || 
       name.includes('mayiz') || name.includes('dolchin') || name.includes('zafron') || 
-      name.includes('yongoq') || name.includes('bodom') || name.includes('pista') || name.includes('turshak')
+      name.includes('yongoq') || name.includes('bodom') || name.includes('pista') || name.includes('turshak') || name.includes('kardamon') || name.includes('funtuk')
     ) {
       return 'ziravor';
     }
     return 'boshqa';
   };
+
+  const categoryLabels: { id: IngredientCategory | 'barchasi'; label: string }[] = [
+    { id: 'barchasi', label: '✨ Barchasi' },
+    { id: 'sabzavot', label: '🥦 Sabzavotlar' },
+    { id: 'meva', label: '🍎 Mevalar' },
+    { id: 'gosht', label: "🥩 Go'sht" },
+    { id: 'sut_mahsuloti', label: '🥛 Sut & Tuxum' },
+    { id: 'dukkakli', label: '🌾 Dukkakli & Don' },
+    { id: 'qandolat', label: '🍫 Qandolat & Pishiriq' },
+    { id: 'yogi', label: "🫗 Yog'lar & Souslar" },
+    { id: 'ziravor', label: "🧂 Ziravor & Yong'oq" },
+    { id: 'boshqa', label: '📦 Boshqa' },
+  ];
 
   const filteredShoppingList = useMemo(() => {
     if (selectedShopCategory === 'barchasi') return shoppingList;
@@ -395,16 +433,6 @@ export const PazandaAI: React.FC = () => {
     setNewShopQty('');
     showToast("✅ Bozorlik ro'yxatiga qo'shildi!");
   };
-
-  const categoryLabels: { id: IngredientCategory | 'barchasi'; label: string }[] = [
-    { id: 'barchasi', label: 'Barchasi' },
-    { id: 'sabzavot', label: 'Sabzavot' },
-    { id: 'gosht', label: "Go'sht" },
-    { id: 'sut_mahsuloti', label: 'Sut' },
-    { id: 'dukkakli', label: 'Dukkakli' },
-    { id: 'ziravor', label: 'Ziravor' },
-    { id: 'boshqa', label: 'Boshqa' },
-  ];
 
   const pendingCount = shoppingList.filter(s => !s.bajarildi).length;
 
