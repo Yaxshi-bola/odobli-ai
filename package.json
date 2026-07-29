@@ -1,0 +1,7 @@
+{
+  "name": "odobli-ai-root",
+  "private": true,
+  "scripts": {
+    "build": "cd web && npm install && npx vite build"
+  }
+}
