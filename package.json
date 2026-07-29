@@ -1,7 +1,0 @@
-{
-  "name": "odobli-ai-monorepo",
-  "private": true,
-  "scripts": {
-    "build": "cd web && npm install && npm run build"
-  }
-}
