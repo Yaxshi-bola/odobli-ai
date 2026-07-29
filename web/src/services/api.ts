@@ -138,7 +138,15 @@ export function matchRecipes(selectedIngredientIds: string[]): RecipeMatchResult
   for (const recipe of MOCK_RECIPES) {
     const required = recipe.required_ingredient_ids || [];
     const missingIds = required.filter(id => !selectedSet.has(id));
-    const missingNames = missingIds.map(id => ingredientMap.get(id) || 'Mahsulot');
+    const missingNames = missingIds.map(id => {
+      const found = ingredientMap.get(id);
+      if (found) return found;
+      if (id.startsWith('ing_')) {
+        const raw = id.replace('ing_', '').replace(/_/g, ' ');
+        return raw.charAt(0).toUpperCase() + raw.slice(1);
+      }
+      return id;
+    });
 
     if (missingIds.length === 0) {
       exactMatches.push({ recipe, missingIngredientNames: [] });

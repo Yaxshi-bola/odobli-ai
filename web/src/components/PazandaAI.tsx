@@ -260,10 +260,52 @@ export const PazandaAI: React.FC = () => {
 
       const matchPercent = Math.round((matchedIds.length / required.length) * 100);
 
-      const missingNames = missingIds.map(id => {
+      const resolveIngredientName = (id: string): string => {
         const found = ingredients.find(ing => ing.id === id);
-        return found ? found.nomi : id;
-      });
+        if (found) return found.nomi;
+        const idMap: Record<string, string> = {
+          'ing_un': "Bug'doy uni",
+          'ing_saryog': "Sariyog'",
+          'ing_shakar': "Shakar",
+          'ing_tuxum': "Tovuq tuxumi",
+          'ing_qatiq': "Qatiq",
+          'ing_sut': "Sut",
+          'ing_qaymoq': "Qaymoq",
+          'ing_pista': "Pista",
+          'ing_olxori': "Olxo'ri",
+          'ing_malina': "Malina",
+          'ing_kassava': "Kassava",
+          'ing_kokos_suti': "Kokos suti",
+          'ing_kokos_qirindisi': "Kokos qirindisi",
+          'ing_granola': "Granola",
+          'ing_mango': "Mango",
+          'ing_kokos_qaymogi': "Kokos qaymog'i",
+          'ing_tvorojniy_pishloq': "Tvorojniy pishloq",
+          'ing_avokado': "Avokado",
+          'ing_laym': "Laym",
+          'ing_bodom_uni': "Bodom uni",
+          'ing_funtuk': "Funtuk yong'og'i",
+          'ing_kardamon': "Kardamon (Hil)",
+          'ing_yalpiz_ekstrakti': "Yalpiz ekstrakti",
+          'ing_zukkini': "Zukkini (Qovoqcha)",
+          'ing_nok': "Nok",
+          'ing_qulupnay': "Qulupnay",
+          'ing_sgushchenka': "Quyultirilgan sut",
+          'ing_yongoq': "Yong'oq mag'zi",
+          'ing_suzma': "Suzma / Chakka",
+          'ing_limon': "Limon",
+          'ing_yalpiz': "Yalpiz",
+          'ing_yogi': "O'simlik yog'i"
+        };
+        if (idMap[id]) return idMap[id];
+        if (id.startsWith('ing_')) {
+          const raw = id.replace('ing_', '').replace(/_/g, ' ');
+          return raw.charAt(0).toUpperCase() + raw.slice(1);
+        }
+        return id;
+      };
+
+      const missingNames = missingIds.map(id => resolveIngredientName(id));
 
       const matchItem = { recipe, missingNames, matchPercent };
 
