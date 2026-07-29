@@ -139,10 +139,195 @@ export const initialIngredients: Ingredient[] = [
   { id: 'ing_choy', nomi: "Choy (Ko'k / Qora)", kategoriya: 'boshqa', icon: '🍵' },
   { id: 'ing_filo_xamiri', nomi: 'Filo xamiri (Yufka)', kategoriya: 'dukkakli', icon: '🥟' },
   { id: 'ing_kraxmal', nomi: "Makkajo'xori kraxmali", kategoriya: 'boshqa', icon: '🥣' },
-  { id: 'ing_kadayif', nomi: 'Kadayif xamiri', kategoriya: 'dukkakli', icon: '🌾' }
+  { id: 'ing_kadayif', nomi: 'Kadayif xamiri', kategoriya: 'dukkakli', icon: '🌾' },
+  { id: "ing_tvorojniy_pishloq", nomi: "Tvorojniy pishloq (Cream cheese)", kategoriya: "sut_mahsuloti", icon: "🧀" },
+  { id: "ing_avokado", nomi: "Avokado", kategoriya: "sabzavot", icon: "🥑" },
+  { id: "ing_laym", nomi: "Laym (Lime)", kategoriya: "boshqa", icon: "🍋" },
+  { id: "ing_bodom_uni", nomi: "Bodom uni", kategoriya: "dukkakli", icon: "🌾" },
+  { id: "ing_funtuk", nomi: "Funtuk yong'og'i", kategoriya: "ziravor", icon: "🌰" },
+  { id: "ing_kardamon", nomi: "Kardamon (Hil)", kategoriya: "ziravor", icon: "🌿" },
+  { id: "ing_yalpiz_ekstrakti", nomi: "Yalpiz ekstrakti", kategoriya: "ziravor", icon: "🌿" },
+  { id: "ing_zukkini", nomi: "Zukkini (Qovoqcha)", kategoriya: "sabzavot", icon: "🥒" },
+  { id: "ing_nok", nomi: "Nok (Pears)", kategoriya: "boshqa", icon: "🍐" },
+  { id: "ing_qulupnay", nomi: "Qulupnay", kategoriya: "boshqa", icon: "🍓" },
+  { id: "ing_sgushchenka", nomi: "Quyultirilgan sut (Sgushchenka)", kategoriya: "sut_mahsuloti", icon: "🥛" }
+
 ];
 
 export const initialRecipes: Recipe[] = [
+  {
+    id: "rec_hd_001_strawberry_cheesecake",
+    nomi: "Pishirilmaydigan Qulupnayli Chizkeyk",
+    tayyorlash_vaqti_daq: 25,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Pishirilmaydigan Qulupnayli Chizkeyk (No-Bake Strawberry Cheesecake) \u2014 6-8 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "225g Tvorojniy pishloq (Cream Cheese) \u2014 xona haroratida yumshatilgan, 70g Shakar yoki shakar kukuni, 240g Qatiq / Smetana (20%li) yoki yog'li qaymoq, 2 choy qoshiq Tabiiy vanil ekstrakti, 225g Pishirilgan ko'pirtirilgan qaymoq (Whipped topping), 170g Qumli pechenye kukunidan tayyorlangan asos (Koj), 450g Yangi qulupnay (yuvilgan, bandi olingan va o'rtasidan teng bo'lingan)",
+    korsatmalari: [
+      "1. Asosiy kremni tayyorlash: Chuqur idishda yumshatilgan tvorojniy pishloqni mikser yordamida bir xil silliq massa bo'lguncha 2 daqiqa ko'pirtiring.",
+      "2. Shakar va aromatizator qo'shish: Shakarni sekin-asta solib ko'pirtirishda davom eting. Smetana (yoki qaymoq) hamda vanil ekstraktini solib aralashtiring.",
+      "3. Qaymoqni qo'shish: Ko'pirtirilgan quyuq qaymoqni spatulada sekin ehtiyotkorlik bilan kremga aralashtiring (massa ko'pchiq bo'lib qolishi kerak).",
+      "4. Qolipga solish va sovitish: Tayyor krem simmetrik ravishda pechenyeli asos ustiga quyiladi va tekislanadi. Kamida 4 soat (yaxshisi kechasi bilan) muzlatgichda sovitiladi.",
+      "5. Bezatish: Dasturxonga tortishdan oldin ustiga to'g'ralgan yangi qulupnay bo'laklari chiroyli tartibda terib chiqiladi."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_002_pistachio_cake",
+    nomi: "Pista va Hil (Kardamon)li Xushbo'y Keks",
+    tayyorlash_vaqti_daq: 45,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Pista va Hil (Kardamon)li Xushbo'y Keks (Pistachio & Cardamom Cake) \u2014 8 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "115g Tozalangan tabiiy pista (maydalash uchun), 130g Oliy nav un, 2 choy qoshiq Qabartma kukun (Baking powder), 1 choy qoshiq Maydalangan kardamon (hil), 1/4 choy qoshiq Tuz, 120ml Sut, 1/4 choy qoshiq Vanil ekstrakti, 170g Saryog' (xona haroratida yumshatilgan), 200g Shakar, 3 dona Katta tuxum",
+    korsatmalari: [
+      "1. Tayyorgarlik: Pechni 175°C ga qizdiring. Qolipni sariyog' bilan surtib, tagiga pergament qog'ozi to'shang.",
+      "2. Quruq masalliqlar: Pistalarni blenderda kukunsimon maydalang. Idishda kukun pistani un, qabartma kukun, kardamon va tuz bilan aralashtiring.",
+      "3. Xamir qorish: Alohida idishda yumshoq sariyog' va shakarni mikserda 3-4 daqiqa oppoq bo'lguncha ko'pirtiring. Tuxumlarni bir donadan qo'shib ko me'yorda ko'pirtiring.",
+      "4. Birlashtirish: Sariyog'li massaga ketma-ketlikda quruq masalliqlar aralashmasi va sutni oz-ozdan solib aralashtiring.",
+      "5. Pishirish: Xamirni qolipga quyib, 175°C pechda 35-40 daqiqa (gugurt cho'pi quruq chiqquncha) pishiring. Sovigach ustiga pista ushoqlari seping."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_003_shortbread_cookies",
+    nomi: "Shotlandcha Saryog'li Ushoqli Pechenye",
+    tayyorlash_vaqti_daq: 30,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Shotlandcha Saryog'li Ushoqli Pechenye (Classic Shortbread Cookies) \u2014 12-15 dona. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "130g Un, 50g Shakar (yoki shakar kukuni), 1/4 choy qoshiq Tuz, 115g Muzday saryog' (kubik qilib to'g'ralgan)",
+    korsatmalari: [
+      "1. Pechni 150°C ga qizdirib qo'ying.",
+      "2. Idishda un, shakar va tuzni aralashtiring. Muzday sariyog' bo'laklarini qo'shib, barmoq uchlari bilan qumsimon ushoq bo me'yorga kelguncha ishlang.",
+      "3. Xamirni bir mushtga jamlab, 1 sm qalinlikda yoyib, to'rtburchak yoki yumaloq shakllar kasing va vilkalar bilan ustiga teshikchalar bosing.",
+      "4. 150°C pechda 25-30 daqiqa davomida rangi och-tillarang bo'lguncha sekin pishiring."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_004_chocolate_candycane_cookies",
+    nomi: "Shokoladli va Yalpizli Bayram Pechenyesi",
+    tayyorlash_vaqti_daq: 35,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Shokoladli va Yalpizli Bayram Pechenyesi (Chocolate Candy Cane Cookies) \u2014 20 dona. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "225g Un, 50g Sifatli kakao kukuni, 1/4 choy qoshiq Tuz, 200g Shakar, 170g Saryog' (xona haroratida), 1 dona Tuxum, 1 choy qoshiq Yalpiz (Peppermint) ekstrakti, Bezash uchun: Shakar kukuni va maydalangan yalpizli karamel bo'lakchalari",
+    korsatmalari: [
+      "1. Idishda un, kakao va tuzni elakdan o'tkazing.",
+      "2. Alohida idishda sariyog' va shakarni mikserda ko'pirtiring. Tuxum va yalpiz ekstraktini soling.",
+      "3. Quruq masalliqlarni qo'shib quyuq shokoladli xamir hosil qiling va 30 daqiqa muzlatgichda tindiring.",
+      "4. Xamirdan sharchalar yasab, karamel ushoqlariga botiring va 175°C pechda 10-12 daqiqa pishiring."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_005_chhena_poda",
+    nomi: "Chhena Poda (Hindiston Karamel-Pishloqli Pirogi)",
+    tayyorlash_vaqti_daq: 60,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Chhena Poda (Hindiston Karamel-Pishloqli Pirogi) (Chhena Poda (Spiced Baked Cheesecake)) \u2014 6-8 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "250g Yangi uy pishlog'i (Paneer yoki yog'li tvorog), 50g Shakar kukuni, 1/2 choy qoshiq Maydalangan kardamon, 2 osh qoshiq Manna yarmasi (Semolina), 1.5 osh qoshiq Eritilgan saryog' / Ghee, 60ml Sut, 2 osh qoshiq Qovurilgan keshik va mayiz, 3 osh qoshiq Qora shakar (karamelizatsiya uchun)",
+    korsatmalari: [
+      "1. Pechni 175°C ga yoqing. Qolip tubiga sariyog' surtib, qora shakarni seping (pishganda karamel hosil qiladi).",
+      "2. Idishda tvorog, shakar kukuni, manna yarmasi, kardamon, eritilgan sariyog' va sutni qo'lda yaxshilab ezing.",
+      "3. Qovurilgan keshik va mayizlarni aralashtiring.",
+      "4. Massani qolipga solib, 175°C da 45 daqiqa pishiring. Teparangi to'q qizg'ish karamel tusga kirgach sovitib qolipdan ag'daring."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_006_creole_cheesecake",
+    nomi: "Karamel va Olma Sousli Kreol Chizkeyki",
+    tayyorlash_vaqti_daq: 75,
+    qiyinlik: "qiyin",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Karamel va Olma Sousli Kreol Chizkeyki (Creole Cream Cheesecake With Caramel-Apple) \u2014 10 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "200g Qumli pechenye uvoqlari, 50g Saryog' (eritilgan), 900g Tvorojniy pishloq (Cream cheese), 200g Shakar, 300g Qatiq / Smetana, 1 choy qoshiq Vanil paste, 2 dona Katta tuxum, Sous uchun: 4 dona nordon olma (Granny Smith), 50g sariyog', 100g jigarrang shakar, 1 choy qoshiq dolchin (koritsa)",
+    korsatmalari: [
+      "1. Pechenye kukunini sariyog' bilan aralashtirib qolip tubiga mahkam bosib chiqiladi va 10 daqiqa duxovkada pishiriladi.",
+      "2. Tvorojniy pishloq, shakar, smetana va vanil birgalikda ko'pirtiriladi. Tuxumlar birma-bir solinadi.",
+      "3. Qolipga quyib, suv hammomida (Bain-marie) 160°C da 55 daqiqa pishiriladi va muzlatgichda 6 soat sovitiladi.",
+      "4. Olma sousi: Tavada sariyog'da to'g'ralgan olmalar, jigarrang shakar va dolchin yumshaguncha 8 daqiqa qovuriladi va sovitilib chizkeyk ustidan quyiladi."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_007_frozen_avocado_cake",
+    nomi: "Muzlatilgan Avokado va Laymli Yengil Desert",
+    tayyorlash_vaqti_daq: 20,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Muzlatilgan Avokado va Laymli Yengil Desert (Frozen Avocado & Lime Ice-Cake) \u2014 8 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "180g Ushoqli pechenye, 60g Eritilgan saryog', 2 banka (800g) Quyultirilgan sut (Sgushchenka), 3 dona Pishgan yumshoq Avokado, 450g Tvorojniy pishloq, 2 dona Limon sharbati, 2 dona Laym sharbati va rendalangan po'sti",
+    korsatmalari: [
+      "1. Pechenyelarni eza shaklida maydalab sariyog' bilan aralashtiring va qolip tagiga tekislang.",
+      "2. Blender idishida tozalangan avokado mag'zi, sgushchenka, tvorojniy pishloq, limon va laym sharbatini mikserda pashshaday silliq krem bo'lguncha 3 daqiqa ezing.",
+      "3. Tayyor yashil silliq kremni qolipga quyib, kamida 6 soat muzlatgich kameraga (Freezer) qo'ying.",
+      "4. Tortishdan oldin laym po'stlog'i rendasi bilan bezating."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_008_chocolate_zucchini_cake",
+    nomi: "Shokoladli va Zukkinili Nam Keks",
+    tayyorlash_vaqti_daq: 55,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Shokoladli va Zukkinili Nam Keks (Moist Chocolate Zucchini Cake) \u2014 10 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "280g Un, 50g Kakao kukun, 1 choy qoshiq Soda va 1 choy qoshiq Tuz, 300g Shakar, 115g Saryog', 120ml O'simlik yog'i, 2 dona Tuxum, 120ml Kefir / Qatiq, 2 stakan Rendalangan qovoqcha (Zukkini), 150g Shokolad tomchilari (Chocolate chips)",
+    korsatmalari: [
+      "1. Pechni 165°C ga yoqing. Qolipni yog'lang.",
+      "2. Idishda un, kakao, soda va tuz elanadi.",
+      "3. Alohida idishda sariyog', o'simlik yog'i va shakar ko'pirtiriladi. Tuxum va qatiq qo'shiladi.",
+      "4. Quruq masalliqlar va rendalangan zukkinini (suvi siqilmaydi) xamirga solib aralashtiriladi. Shokolad tomchilari seping.",
+      "5. 45 daqiqa pishiring. Zukkining ta'mi sezilmaydi, lekin keksni o'ta nam va mazzali qiladi."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_009_fresh_fruit_tart",
+    nomi: "Bodomli Tart va Yangi Mevalar Pirogi",
+    tayyorlash_vaqti_daq: 60,
+    qiyinlik: "qiyin",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Bodomli Tart va Yangi Mevalar Pirogi (Fresh Fruit Tart With Almond Crust) \u2014 8 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "130g Un + 60g Bodom uni, 40g Shakar va 1/2 choy qoshiq Tuz, 115g Muzday saryog', Krem uchun: 500ml Sut, 4 dona Tuxum sarig'i, 70g Shakar, 30g Kraxmal, 45g Saryog', Ustiga: Yangi chernika, malina, qulupnay bo'laklari",
+    korsatmalari: [
+      "1. Korj: Un, bodom uni, shakar, tuz va sariyog'dan xamir tayyorlab qolipga bosiladi va 175°C da 20 daqiqa tillarang bo'lguncha pishiriladi.",
+      "2. Zavarnoy Krem: Idishda tuxum sarig'i, shakar va kraxmal ko'pirtiriladi. Qaynoq sut quyilib sekin olovda quyulguncha pishiriladi. Sariyog' qo'shib sovitiladi.",
+      "3. Yig'ish: Sovigan tart korjiga krem surtiladi va ustidan rang-barang mevalar chiroyli tartibda teriladi."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+  {
+    id: "rec_hd_010_pear_hazelnut_tart",
+    nomi: "Nokli va Funtukli Bodomli Tart",
+    tayyorlash_vaqti_daq: 65,
+    qiyinlik: "qiyin",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Nokli va Funtukli Bodomli Tart (Pear & Hazelnut Frangipane Tart) \u2014 8 kishilik. Halol va xushbo'y pishiriq.",
+    masalliqlar_matni: "100g Qovurilgan funtuk yong'og'i, 100g Shakar, 35g Un, 90g Yumshoq saryog', 2 dona Katta tuxum, 1/2 choy qoshiq Bodom ekstrakti, 3 dona Pishgan yumshoq Nok (shirin), 1 ta Tayyor tart xamiri korji, 2 osh qoshiq O'rik djem (glazur uchun)",
+    korsatmalari: [
+      "1. Funtuk yong'og'ini blenderda shakar bilan kukun qilib ezing, un bilan aralashtiring.",
+      "2. Sariyog' va qolgan shakarni ko'pirtiring. Tuxumlar va bodom ekstraktini qo'shing. Yong'oqli kukunni solib Franjipan kremini tayyorlang.",
+      "3. Tart korjiga kremni surting. Noklarni yupqa parrak qilib kesib krem ustiga yelpig'ich shaklida tering.",
+      "4. 175°C pechda 45 daqiqa pishiring. Pishgach ustiga eritilgan o'rik djemini cho'tka bilan surtib yaltirating."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_shakar", "ing_tuxum"]
+  },
+
   {
     id: 'rec_01_toshkent_palov',
     nomi: "Toshkent To'y Palovi",
