@@ -156,6 +156,189 @@ export const initialIngredients: Ingredient[] = [
 
 export const initialRecipes: Recipe[] = [
   {
+    id: "rec_hd_011_pistachio_plum_tart",
+    nomi: "Pista va Qizil Olxo'rili Zavarnoy Tort",
+    tayyorlash_vaqti_daq: 60,
+    qiyinlik: "qiyin",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Pista va Qizil Olxo'rili Zavarnoy Tort (Stone Fruit Custard Tart) \u2014 8 kishilik. Yong'oqsimon hid va shirin olxo'rili shohona pishiriq.",
+    masalliqlar_matni: "115 g qizdirilgan saryog' (Brown Butter), 65 g maydalangan pista, 1 dona tuxum, 50 g jigarrang shakar, 250 g un, 3 dona qizil olxo'ri",
+    korsatmalari: [
+      "1. Saryog'ni qalin taglikli tovada past olovda eritib, yong'oqsimon hid chiqib, oltin-jigarrang tusga kirguncha qizdiring. So'ng sovuting.",
+      "2. Idishda un, maydalangan pista va jigarrang shakarni aralashtiring.",
+      "3. Sovigan saryog' va tuxumni qo'shib, yumshoq xamir qorib oling.",
+      "4. Xamirni yog'langan tort qolipiga bir tekis bosib joylashtiring.",
+      "5. Olxo'rilarni yuvib, danagini ajrating va ingichka bo'laklarga kesing. Mevalarni xamir ustiga yelpig'ich shaklida tering.",
+      "6. Oldindan 190°C gacha qizdirilgan pechda 35–40 daqiqa pishiring.",
+      "7. Sovigach, xohishga ko'ra ustiga shakar kukuni sepib dasturxonga torting."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_saryog", "ing_pista", "ing_tuxum", "ing_olxori"]
+  },
+  {
+    id: "rec_hd_012_ice_cream_cake",
+    nomi: "Ikki Qatlamli Mevali Muzqaymoqli Tort",
+    tayyorlash_vaqti_daq: 40,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Ikki Qatlamli Mevali Muzqaymoqli Tort (Double Ripple Ice Cream Cake) \u2014 10 kishilik. Salqinlantiruvchi va marmarsimon naqshli desert.",
+    masalliqlar_matni: "250 g olxo'ri yoki qulupnay, 50 g jigarrang shakar, 100 g maydalangan yong'oq mag'zi, 1 litr vanilli muzqaymoq, 200 g maydalangan pechenye",
+    korsatmalari: [
+      "1. Mevalarni maydalab, shakar bilan 8–10 daqiqa qaynatib quyuq mevali sous tayyorlang.",
+      "2. Pechenyeni maydalab qolip tagiga bosib joylashtiring.",
+      "3. Ustiga yumshagan muzqaymoqning yarmini surting.",
+      "4. Mevali sousdan bir necha qoshiq tomizib, pichoq yordamida marmarsimon naqsh hosil qiling.",
+      "5. Qolgan muzqaymoqni surtib, yana sous va maydalangan yong'oq bilan bezang.",
+      "6. Tortni kamida 5 soat muzlatkichning muzlatish bo'limida qotiring.",
+      "7. Kesishdan oldin 5–10 daqiqa xona haroratida turing."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_qulupnay", "ing_shakar", "ing_yongoq", "ing_olxori"]
+  },
+  {
+    id: "rec_hd_013_almond_raspberry_icecream",
+    nomi: "Bodomli va Malinali Uy Muzqaymog'i",
+    tayyorlash_vaqti_daq: 20,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Bodomli va Malinali Uy Muzqaymog'i (No-Churn Almond & Raspberry Ice Cream) \u2014 6\u20138 kishilik. Muzqaymoq apparatisiz tayyorlanadigan tabiiy desert.",
+    masalliqlar_matni: "600 g malina, 2 osh qoshiq shakar, 1 banka quyultirilgan sut (sgushyonka), 1 choy qoshiq bodom ekstrakti, 500 ml 33% yog'li qaymoq",
+    korsatmalari: [
+      "1. Malina va shakarni 5–7 daqiqa qaynatib, quyuq pyure tayyorlang va sovuting.",
+      "2. Qaymoqni mikser yordamida yumshoq cho'qqilar hosil bo'lguncha ko'pirtiring.",
+      "3. Quyultirilgan sut va bodom ekstraktini qo'shib ehtiyotkorlik bilan aralashtiring.",
+      "4. Aralashmani qolipga quyib, orasiga malina pyuresidan qatlam-qatlam qo'ying.",
+      "5. Yog'och tayoqcha bilan yengil aylantirib marmarsimon naqsh hosil qiling va kamida 6 soat muzlating."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_malina", "ing_sgushchenka", "ing_qaymoq", "ing_shakar"]
+  },
+  {
+    id: "rec_hd_014_mint_chocolate_icecream",
+    nomi: "Yangi Yalpizli va Shokoladli Muzqaymoq",
+    tayyorlash_vaqti_daq: 25,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Yangi Yalpizli va Shokoladli Muzqaymoq (No-Churn Fresh Mint & Chocolate Ice Cream) \u2014 6\u20138 kishilik. Tabiiy yalpiz barglari va shokolad uyg'unligi.",
+    masalliqlar_matni: "1 bog' yangi yalpiz, 500 ml qaymoq, 100 g maydalangan qora shokolad, 1 banka quyultirilgan sut (sgushyonka), 40 g kakao kukuni",
+    korsatmalari: [
+      "1. Qaymoqni biroz isitib, ichiga yalpiz barglarini soling va 20 daqiqa damlab qo'ying.",
+      "2. So'ng yalpiz barglarini suzib oling va qaymoqni to'liq sovuting.",
+      "3. Sovigan qaymoqni mikser bilan ko'pirtiring.",
+      "4. Quyultirilgan sut va kakao qo'shib aralashtiring.",
+      "5. Oxirida maydalangan shokoladni solib aralashtiring hamda qolipga quyib 6 soat muzlating."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_yalpiz", "ing_qaymoq", "ing_sgushchenka"]
+  },
+  {
+    id: "rec_hd_015_cassava_cake",
+    nomi: "Kassava va Kokosli Sharq Keksi",
+    tayyorlash_vaqti_daq: 50,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Kassava va Kokosli Sharq Keksi (Cassava & Coconut Cake) \u2014 8 kishilik. Kokos suti va qirindisining mayin sharqona ta'mi.",
+    masalliqlar_matni: "4 dona tuxum, 500 g maydalangan kassava (yoki kartoshka kraxmali), 250 g kokos qirindisi, 375 ml kokos suti, \u00bd stakan quyultirilgan sut (sgushyonka)",
+    korsatmalari: [
+      "1. Tuxum sarig'i va oqini alohida ajrating.",
+      "2. Sarig'iga kokos suti, quyultirilgan sut, kassava va kokos qirindisini qo'shib aralashtiring.",
+      "3. Tuxum oqini alohida idishda qattiq ko'pik holiga kelguncha ko'pirtiring.",
+      "4. Uni asosiy massaga asta-sekin qo'shib aralashtiring.",
+      "5. Xamirni qolipga quying va 175°C pechda 40 daqiqa pishiring."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_tuxum", "ing_kokos_suti", "ing_kokos_qirindisi", "ing_sgushchenka"]
+  },
+  {
+    id: "rec_hd_016_labneh_lime_icecream",
+    nomi: "Suzmali va Laymli Muzqaymoq",
+    tayyorlash_vaqti_daq: 15,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Suzmali va Laymli Muzqaymoq (Labneh & Lime Ice Cream) \u2014 6 kishilik. Nordon suzma va xushbo'y laym bilan granola uyg'unligi.",
+    masalliqlar_matni: "200 g quyuq suzma (yoki grek yogurti), 1 banka quyultirilgan sut (sgushyonka), 2 dona laym sharbati, 350 ml qaymoq, Granola",
+    korsatmalari: [
+      "1. Suzma, laym sharbati va quyultirilgan sutni bir xil massa bo'lguncha aralashtiring.",
+      "2. Qaymoqni alohida ko'pirtirib oling va ikki aralashmani ehtiyotkorlik bilan birlashtiring.",
+      "3. Qolipga quyib 5 soat muzlating.",
+      "4. Dasturxonga tortishdan oldin ustiga granola sepib bezang."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_suzma", "ing_laym", "ing_sgushchenka", "ing_qaymoq", "ing_granola"]
+  },
+  {
+    id: "rec_hd_017_mango_coconut_mousse",
+    nomi: "Tropik Mango va Kokosli Mus Deserti",
+    tayyorlash_vaqti_daq: 20,
+    qiyinlik: "oson",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Tropik Mango va Kokosli Mus Deserti (Mango & Coconut Cream Mousse) \u2014 4\u20136 kishilik. Mangoning yengil va nordon-shirin mus deserti.",
+    masalliqlar_matni: "2 dona pishgan mango, 200 ml kokos qaymog'i, 3 osh qoshiq shakar kukuni, 1 osh qoshiq limon sharbati",
+    korsatmalari: [
+      "1. Mangoni tozalab pyure holiga keltiring va limon sharbatini qo'shib aralashtiring.",
+      "2. Kokos qaymog'ini shakar kukuni bilan ko'pirtiring.",
+      "3. Stakanlarga navbat bilan mango pyuresi va kokos qaymog'ini qatlamlab quying.",
+      "4. Kamida 2 soat sovutib, salqin holda torting."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_mango", "ing_kokos_qaymogi", "ing_shakar", "ing_limon"]
+  },
+  {
+    id: "rec_hd_018_lemon_meringue_pie",
+    nomi: "Limonli va Meringali Salqin Pirog",
+    tayyorlash_vaqti_daq: 45,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Limonli va Meringali Salqin Pirog (Icebox Lemon Pie with Meringue) \u2014 8 kishilik. Nordon limon va oppoq Meringa ko'pikli salqin pirog.",
+    masalliqlar_matni: "Tayyor pechenye korji, 3 dona tuxum, 100 ml limon sharbati, 1 banka quyultirilgan sut (sgushyonka), 50 g shakar kukuni",
+    korsatmalari: [
+      "1. Tuxum sarig'ini oqidan ajrating.",
+      "2. Sarig'iga quyultirilgan sut va limon sharbatini qo'shib krem tayyorlang hamda korj ustiga yoying.",
+      "3. Tuxum oqini shakar kukuni bilan qattiq ko'pik holiga kelguncha ko'pirtiring.",
+      "4. Meringani pirog ustiga chiroyli qilib surting.",
+      "5. 180°C pechda 10–15 daqiqa, usti yengil qizarguncha pishiring. Sovitib xizmat qiling."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_tuxum", "ing_limon", "ing_sgushchenka", "ing_shakar"]
+  },
+  {
+    id: "rec_hd_019_red_velvet_cake",
+    nomi: "Klassik Qizil Barxat Torti",
+    tayyorlash_vaqti_daq: 65,
+    qiyinlik: "qiyin",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Klassik Qizil Barxat Torti (Classic Red Velvet Cake) \u2014 10\u201312 kishilik. Dunyoning eng mashhur va jozibali restoron torti.",
+    masalliqlar_matni: "Korji uchun: 300 g un, 300 g shakar, 2 dona tuxum, 300 ml o'simlik yog'i, 240 ml qatiq, 2 osh qoshiq kakao, Qizil oziq-ovqat bo'yog'i. Krem uchun: 400 g qaymoqli pishloq (cream cheese), 150 g saryog', Shakar kukuni",
+    korsatmalari: [
+      "1. Korj uchun barcha masalliqlarni bir xil massa hosil bo'lguncha aralashtiring.",
+      "2. Xamirni qoliplarga bo'lib, 175°C pechda 30–35 daqiqa pishiring va to'liq sovuting.",
+      "3. Krem uchun saryog' va qaymoqli pishloqni shakar kukuni bilan ko'pirtiring.",
+      "4. Korjlarni bir-birining ustiga qo'yib, orasiga va ustiga krem surting.",
+      "5. Tortni muzlatkichda 1–2 soat tindirib, so'ng dasturxonga torting."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_un", "ing_shakar", "ing_tuxum", "ing_qatiq", "ing_tvorojniy_pishloq", "ing_saryog"]
+  },
+  {
+    id: "rec_hd_020_strawberry_shortcake",
+    nomi: "Qulupnayli va Qaymoqli Mayin Keks",
+    tayyorlash_vaqti_daq: 40,
+    qiyinlik: "orta",
+    rasm_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    tarif_matni: "Qulupnayli va Qaymoqli Mayin Keks (Strawberry Shortcake) \u2014 6 kishilik. Sharbatli qulupnay va ko'pirtirilgan qaymoqli mayin keks.",
+    masalliqlar_matni: "400 g yangi qulupnay, 360 g un, 115 g saryog', 180 ml sut, 250 ml quyuq qaymoq (ko'pirtirish uchun)",
+    korsatmalari: [
+      "1. Qulupnayni yuvib, bo'laklarga bo'ling va ozgina shakar bilan aralashtirib 20 daqiqa qoldiring.",
+      "2. Un, saryog' va sutdan yumshoq keks xamiri tayyorlang.",
+      "3. Xamirni qolipga quyib, 180°C pechda 25–30 daqiqa pishiring.",
+      "4. Sovigan keksni gorizontal ravishda ikkiga bo'ling.",
+      "5. Pastki qismiga ko'pirtirilgan qaymoq va sharbat chiqargan qulupnayni yoying. Ustini ikkinchi qavat bilan yoping hamda qaymoq va qulupnay bilan bezang."
+],
+    holat: "nashr",
+    required_ingredient_ids: ["ing_qulupnay", "ing_un", "ing_saryog", "ing_sut", "ing_qaymoq"]
+  },
+
+  {
     id: "rec_hd_001_strawberry_cheesecake",
     nomi: "Pishirilmaydigan Qulupnayli Chizkeyk",
     tayyorlash_vaqti_daq: 25,
