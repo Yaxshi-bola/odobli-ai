@@ -23,10 +23,10 @@ export const Profil: React.FC = () => {
     <div className="space-y-4 pb-28 pt-2">
       
       {/* Compact Profile & Subscription Card */}
-      <div className="card-premium p-4 rounded-3xl space-y-3.5 shadow-md relative overflow-hidden">
+      <div className="card-pink p-4 rounded-3xl space-y-3.5 shadow-xs relative overflow-hidden bg-white">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            <div className="w-12 h-12 rounded-2xl bg-[#5A1827] flex items-center justify-center text-2xl shadow-sm text-white font-black flex-shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#DB2777] to-[#EC4899] flex items-center justify-center text-2xl shadow-sm text-white font-black flex-shrink-0">
               👩‍🍳
             </div>
             <div className="min-w-0 flex-1">
@@ -37,12 +37,12 @@ export const Profil: React.FC = () => {
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
                     placeholder={t("Ismingizni kiriting...")}
-                    className="px-2.5 py-1 text-xs font-bold rounded-xl border-2 border-[#5A1827] bg-white text-gray-900 focus:outline-none w-full shadow-2xs"
+                    className="px-2.5 py-1 text-xs font-bold rounded-xl border-2 border-[#DB2777] bg-white text-[#2E121D] focus:outline-none w-full shadow-2xs"
                     autoFocus
                   />
                   <button
                     type="submit"
-                    className="p-1.5 bg-[#5A1827] text-white rounded-xl hover:bg-[#3E101B] transition-all flex-shrink-0 shadow-2xs active:scale-95"
+                    className="p-1.5 bg-[#DB2777] text-white rounded-xl hover:bg-[#BE185D] transition-all flex-shrink-0 shadow-2xs active:scale-95"
                     title={t("Saqlash")}
                   >
                     <Check className="w-3.5 h-3.5" />
@@ -61,7 +61,7 @@ export const Profil: React.FC = () => {
                 </form>
               ) : (
                 <div className="flex items-center gap-1.5">
-                  <h2 className="text-base font-extrabold text-gray-900 dark:text-white truncate">
+                  <h2 className="text-base font-extrabold text-[#2E121D] truncate">
                     {user.ism}
                   </h2>
                   <button
@@ -70,7 +70,7 @@ export const Profil: React.FC = () => {
                       setNameInput(user.ism);
                       setIsEditingName(true);
                     }}
-                    className="p-1 text-[#5A1827] dark:text-amber-400 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+                    className="p-1 text-[#DB2777] hover:bg-pink-100 rounded-lg transition-colors flex-shrink-0"
                     title={t("Ismni tahrirlash")}
                   >
                     <Pencil className="w-3.5 h-3.5" />
@@ -80,34 +80,34 @@ export const Profil: React.FC = () => {
                   )}
                 </div>
               )}
-              <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium truncate">
+              <p className="text-[11px] text-slate-500 font-medium truncate">
                 @{user.username || 'user'} • ID: {user.telegram_id}
               </p>
             </div>
           </div>
 
           <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap ${
-            user.is_premium ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-gray-100 text-gray-700 border border-gray-200'
+            user.is_premium ? 'badge-gold' : 'bg-amber-50 text-amber-800 border border-amber-200'
           }`}>
-            {user.is_premium ? `✨ Level ${Math.floor(progress.jami_ball / 100) + 1} PRO` : `⏳ Sinov Davri`}
+            {user.is_premium ? `✨ ${t("Premium")}` : `⏳ ${t("Sinov davri")}`}
           </span>
         </div>
 
-        {/* Micro Stats Bar (Badge & Level Progress) */}
-        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
-          <div className="flex items-center gap-2 bg-orange-50 dark:bg-orange-950/20 p-2.5 rounded-2xl border border-orange-100 dark:border-orange-900/30">
+        {/* Micro Stats Bar */}
+        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+          <div className="flex items-center gap-2 bg-orange-50/80 p-2.5 rounded-2xl border border-orange-100">
             <Flame className="w-4 h-4 text-orange-500 fill-orange-500 flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-[10px] text-gray-500 dark:text-gray-400 font-semibold">{t("Streak")}</p>
-              <p className="text-xs font-black text-gray-900 dark:text-white">{progress.joriy_streak} {t("kun")}</p>
+              <p className="text-[10px] text-slate-500 font-semibold">{t("Streak")}</p>
+              <p className="text-xs font-black text-slate-900">{progress.joriy_streak} {t("kun")}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-amber-50 dark:bg-amber-950/20 p-2.5 rounded-2xl border border-amber-100 dark:border-amber-900/30">
+          <div className="flex items-center gap-2 bg-amber-50/80 p-2.5 rounded-2xl border border-amber-100">
             <Star className="w-4 h-4 text-amber-500 fill-amber-400 flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-[10px] text-gray-500 dark:text-gray-400 font-semibold">{t("Level & Ballar")}</p>
-              <p className="text-xs font-black text-gray-900 dark:text-white">Lvl {Math.floor(progress.jami_ball / 100) + 1} • {progress.jami_ball} {t("ball")}</p>
+              <p className="text-[10px] text-slate-500 font-semibold">{t("Ballar")}</p>
+              <p className="text-xs font-black text-slate-900">{progress.jami_ball} {t("ball")}</p>
             </div>
           </div>
         </div>
@@ -115,88 +115,92 @@ export const Profil: React.FC = () => {
         {/* Subscription Trigger Button */}
         <button
           onClick={() => setShowPaymentModal(true)}
-          className="w-full py-2.5 btn-amber-cta text-white font-black text-xs rounded-2xl shadow-xs transition-all active:scale-98 flex items-center justify-center gap-1.5 min-h-[40px]"
+          className="w-full py-2.5 btn-gold-pill text-white font-extrabold text-xs rounded-2xl shadow-xs transition-all active:scale-98 flex items-center justify-center gap-1.5 min-h-[40px]"
         >
           <Sparkles className="w-4 h-4 fill-white" />
           <span>{user.is_premium ? t("Premium Obuna Ma'lumoti") : t("Premium Sotib Olish (25,000 so'm/oy)")}</span>
         </button>
       </div>
 
-      {/* Saqlanganlar (Grid View with Heart Icons) */}
-      <div className="card-premium p-3.5 rounded-3xl space-y-3 shadow-2xs">
+      {/* Saqlanganlar (Uzunchoq Papka Card) */}
+      <div className="card-pink p-3.5 rounded-3xl space-y-3 shadow-2xs border border-pink-100">
         <div 
           onClick={() => setShowSavedList(!showSavedList)}
           className="flex items-center justify-between cursor-pointer py-0.5"
         >
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 flex items-center justify-center shadow-2xs">
+            <div className="w-9 h-9 rounded-2xl bg-pink-100 text-[#DB2777] flex items-center justify-center shadow-2xs">
               <FolderHeart className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-extrabold text-gray-900 dark:text-white text-sm flex items-center gap-1.5">
+              <h3 className="font-extrabold text-[#2E121D] text-sm flex items-center gap-1.5">
                 <span>{t("Saqlangan Retseptlar Papkasi")}</span>
               </h3>
-              <p className="text-[11px] text-gray-500 dark:text-gray-400 font-semibold">
+              <p className="text-[11px] text-[#9D4C6C] font-semibold">
                 {favoriteRecipes.length} {t("ta retsept saqlangan")}
               </p>
             </div>
           </div>
 
-          <button className="p-1.5 text-[#5A1827] dark:text-amber-400 hover:bg-gray-100 rounded-xl transition-colors">
+          <button className="p-1.5 text-[#DB2777] hover:bg-pink-50 rounded-xl transition-colors">
             <ChevronRight className={`w-5 h-5 transition-transform duration-200 ${showSavedList ? 'rotate-90' : ''}`} />
           </button>
         </div>
 
         {showSavedList && (
-          <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2">
+          <div className="pt-2 border-t border-pink-100 space-y-2">
             {favoriteRecipes.length === 0 ? (
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700 text-center space-y-1.5">
-                <p className="text-xs font-bold text-gray-900 dark:text-white">
+              <div className="bg-[#FFFDF9] p-4 rounded-2xl border border-dashed border-pink-200 text-center space-y-1.5">
+                <p className="text-xs font-bold text-[#2E121D]">
                   {t("Hozircha saqlangan retseptlar yo'q")}
                 </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                <p className="text-[11px] text-[#9D4C6C]">
                   {t("Retseptlar ustidagi yurakcha tugmasini bosib shu papkaga yig'ishingiz mumkin.")}
                 </p>
                 <button
                   onClick={() => setActiveTab('pazanda')}
-                  className="mt-1.5 text-xs font-black text-[#5A1827] dark:text-amber-400 hover:underline inline-flex items-center gap-1"
+                  className="mt-1.5 text-xs font-black text-[#DB2777] hover:underline inline-flex items-center gap-1"
                 >
                   <ChefHat className="w-3.5 h-3.5" />
                   <span>{t("Pazanda AI retseptlariga o'tish")} →</span>
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-2">
                 {favoriteRecipes.map(recipe => (
                   <div
                     key={recipe.id}
-                    className="bg-gray-50 dark:bg-gray-800 p-2 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col justify-between hover:border-[#5A1827] transition-all relative group"
+                    className="bg-[#FFFDF9] p-2.5 rounded-2xl border border-pink-100 flex items-center justify-between gap-3 hover:border-[#DB2777] transition-all"
                   >
                     <div
                       onClick={() => setActiveTab('pazanda')}
-                      className="cursor-pointer"
+                      className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer"
                     >
                       <img
                         src={recipe.rasm_url}
                         alt={recipe.nomi}
                         referrerPolicy="no-referrer"
-                        className="w-full h-20 object-cover rounded-xl shadow-2xs mb-1.5"
+                        className="w-11 h-11 object-cover rounded-xl shadow-2xs flex-shrink-0"
                       />
-                      <h4 className="font-extrabold text-gray-900 dark:text-white text-xs truncate">
-                        {t(recipe.nomi)}
-                      </h4>
-                      <p className="text-[10px] text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5 font-medium">
-                        <Clock className="w-3 h-3 text-amber-500" />
-                        <span>{recipe.tayyorlash_vaqti_daq} {t("daq")}</span>
-                      </p>
+                      <div className="min-w-0">
+                        <h4 className="font-extrabold text-[#2E121D] text-xs truncate">
+                          {t(recipe.nomi)}
+                        </h4>
+                        <p className="text-[10px] text-[#9D4C6C] flex items-center gap-1 mt-0.5 font-medium">
+                          <Clock className="w-3 h-3 text-[#F59E0B]" />
+                          <span>{recipe.tayyorlash_vaqti_daq} {t("daq")}</span>
+                          <span>•</span>
+                          <span className="capitalize">{t(recipe.qiyinlik)}</span>
+                        </p>
+                      </div>
                     </div>
 
                     <button
                       onClick={() => toggleFavoriteRecipe(recipe.id)}
-                      className="absolute top-3 right-3 p-1.5 text-rose-500 bg-white/80 dark:bg-gray-800 rounded-full shadow-2xs hover:bg-rose-50 transition-colors"
+                      className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors flex-shrink-0"
                       title={t("Olib tashlash")}
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
@@ -207,13 +211,13 @@ export const Profil: React.FC = () => {
       </div>
 
       {/* Sozlamalar: Ismni tahrirlash & Alifbo Skripti */}
-      <div className="card-premium p-3.5 rounded-3xl space-y-2.5 shadow-2xs">
+      <div className="card-pink p-3.5 rounded-3xl space-y-2.5 shadow-2xs border border-pink-100">
         <div className="flex items-center justify-between">
-          <h3 className="font-extrabold text-gray-900 dark:text-white text-xs flex items-center gap-1.5">
-            <Globe className="w-4 h-4 text-[#5A1827] dark:text-amber-400" />
+          <h3 className="font-extrabold text-[#2E121D] text-xs flex items-center gap-1.5">
+            <Globe className="w-4 h-4 text-[#DB2777]" />
             <span>{t("Sozlamalar va Profil")}</span>
           </h3>
-          <span className="text-[10px] text-gray-500 font-semibold">{t("Sozlamalar")}</span>
+          <span className="text-[10px] text-[#9D4C6C] font-semibold">{t("Sozlamalar")}</span>
         </div>
 
         {/* Ismni tahrirlash qatori */}
@@ -223,26 +227,26 @@ export const Profil: React.FC = () => {
             setIsEditingName(true);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex items-center justify-between p-2.5 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-100 transition-all active:scale-98"
+          className="flex items-center justify-between p-2.5 bg-pink-50/60 rounded-2xl border border-pink-100 cursor-pointer hover:bg-pink-100/50 transition-all active:scale-98"
         >
           <div className="flex items-center gap-2">
-            <UserIcon className="w-4 h-4 text-[#5A1827] dark:text-amber-400" />
-            <span className="text-xs font-extrabold text-gray-900 dark:text-white">{t("Ismni tahrirlash")}</span>
+            <UserIcon className="w-4 h-4 text-[#DB2777]" />
+            <span className="text-xs font-extrabold text-[#2E121D]">{t("Ismni tahrirlash")}</span>
           </div>
-          <div className="flex items-center gap-1 text-[11px] font-bold text-gray-500">
+          <div className="flex items-center gap-1 text-[11px] font-bold text-[#9D4C6C]">
             <span className="truncate max-w-[120px]">{user.ism}</span>
-            <Pencil className="w-3.5 h-3.5 text-[#5A1827] flex-shrink-0" />
+            <Pencil className="w-3.5 h-3.5 text-[#DB2777] flex-shrink-0" />
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 bg-gray-50 dark:bg-gray-800 p-1 rounded-2xl border border-gray-200 dark:border-gray-700">
+        <div className="grid grid-cols-2 gap-2 bg-pink-50/60 p-1 rounded-2xl border border-pink-100">
           <button
             type="button"
             onClick={() => setScript('lotin')}
             className={`py-2 rounded-xl text-xs font-extrabold transition-all ${
               script === 'lotin'
-                ? 'bg-[#5A1827] text-white shadow-2xs'
-                : 'text-gray-600 dark:text-gray-400'
+                ? 'bg-[#DB2777] text-white shadow-2xs'
+                : 'text-[#9D4C6C] hover:text-[#2E121D]'
             }`}
           >
             Lotin alifbosi
@@ -252,8 +256,8 @@ export const Profil: React.FC = () => {
             onClick={() => setScript('kirill')}
             className={`py-2 rounded-xl text-xs font-extrabold transition-all ${
               script === 'kirill'
-                ? 'bg-[#5A1827] text-white shadow-2xs'
-                : 'text-gray-600 dark:text-gray-400'
+                ? 'bg-[#DB2777] text-white shadow-2xs'
+                : 'text-[#9D4C6C] hover:text-[#2E121D]'
             }`}
           >
             Кирилл алифбоси

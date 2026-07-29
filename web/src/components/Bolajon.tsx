@@ -224,79 +224,65 @@ export const Bolajon: React.FC = () => {
     <div className="space-y-4 pb-28 pt-1">
       
       {/* Banner / Header */}
-      <div className="card-rose-banner p-3.5 rounded-2xl relative overflow-hidden shadow-md">
+      <div className="card-burgundy-banner p-4 rounded-2xl relative overflow-hidden shadow-md">
         <div className="relative z-10 space-y-1">
-          <span className="bg-white/20 text-[#FBBF24] text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 backdrop-blur-xs border border-white/10">
-            <Sparkles className="w-3 h-3 text-[#FBBF24]" />
+          <span className="badge-gold inline-flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#451A03]" />
             {t("Bolajon Bo'limi — Intellekt & Ertaklar")}
           </span>
-          <h2 className="text-base font-bold tracking-tight text-white">
+          <h2 className="text-base font-extrabold tracking-tight text-white mt-1">
             {t("Sehrli va Bilimdon Bolajon")} 🧸
           </h2>
           <p className="text-[11px] text-white/90 leading-snug">
             {t("Ertaklar, audio hikoyalar, topishmoqlar va mantiqiy masalalar to'plami.")}
           </p>
         </div>
-        <div className="absolute -bottom-2 -right-2 text-6xl opacity-15 pointer-events-none">
+        <div className="absolute -bottom-2 -right-2 text-6xl opacity-20 pointer-events-none">
           🏰
         </div>
       </div>
 
       {/* Sub Navigation Tabs */}
-      <div className="card-pink grid grid-cols-4 gap-1 p-1 rounded-2xl bg-white text-xs">
-        <button
-          onClick={() => setSubTab('ertaklar')}
-          className={`py-2 px-1 rounded-xl font-bold flex flex-col items-center gap-0.5 transition-all text-[10px] sm:text-[11px] ${
-            subTab === 'ertaklar'
-              ? 'bg-[#DB2777] text-white shadow-xs'
-              : 'text-[#9D4C6C] hover:bg-pink-50'
-          }`}
-        >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>{t("Ertaklar")}</span>
-        </button>
-
-        <button
-          onClick={() => setSubTab('audio')}
-          className={`py-2 px-1 rounded-xl font-bold flex flex-col items-center gap-0.5 transition-all text-[10px] sm:text-[11px] ${
-            subTab === 'audio'
-              ? 'bg-[#DB2777] text-white shadow-xs'
-              : 'text-[#9D4C6C] hover:bg-pink-50'
-          }`}
-        >
-          <Volume2 className="w-3.5 h-3.5" />
-          <span className="flex items-center gap-0.5">
-            {t("Audio")}
-            <span className="bg-[#F59E0B] text-white text-[8px] font-bold px-1 rounded-full">PRO</span>
-          </span>
-        </button>
-
-        <button
-          onClick={() => setSubTab('oyinlar')}
-          className={`py-2 px-1 rounded-xl font-bold flex flex-col items-center gap-0.5 transition-all text-[10px] sm:text-[11px] ${
-            subTab === 'oyinlar'
-              ? 'bg-[#DB2777] text-white shadow-xs'
-              : 'text-[#9D4C6C] hover:bg-pink-50'
-          }`}
-        >
-          <Gamepad2 className="w-3.5 h-3.5" />
-          <span>{t("O'yinlar")}</span>
-        </button>
-
-        <button
-          onClick={() => setSubTab('vazifalar')}
-          className={`py-2 px-1 rounded-xl font-bold flex flex-col items-center gap-0.5 transition-all text-[10px] sm:text-[11px] ${
-            subTab === 'vazifalar'
-              ? 'bg-[#DB2777] text-white shadow-xs'
-              : 'text-[#9D4C6C] hover:bg-pink-50'
-          }`}
-        >
-          <Trophy className="w-3.5 h-3.5" />
-          <span>{t("Vazifalar")}</span>
-        </button>
+      <div className="card-pink grid grid-cols-4 gap-1 p-1 rounded-2xl bg-white text-xs relative">
+        {[
+          { id: 'ertaklar', label: 'Ertaklar', icon: BookOpen },
+          { id: 'audio', label: 'Audio', icon: Volume2, badge: 'PRO' },
+          { id: 'oyinlar', label: "O'yinlar", icon: Gamepad2 },
+          { id: 'vazifalar', label: 'Vazifalar', icon: Trophy }
+        ].map((tabItem) => {
+          const Icon = tabItem.icon;
+          const isActive = subTab === tabItem.id;
+          return (
+            <motion.button
+              key={tabItem.id}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => setSubTab(tabItem.id as any)}
+              className={`relative z-10 py-2 px-1 rounded-xl font-bold flex flex-col items-center gap-0.5 transition-colors text-[10px] sm:text-[11px] ${
+                isActive ? 'text-white' : 'text-[#9D4C6C] hover:bg-pink-50/50'
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeSubTabPill"
+                  transition={{ type: 'spring', bounce: 0.15, duration: 0.35 }}
+                  className="absolute inset-0 bg-[#DB2777] rounded-xl shadow-xs -z-10"
+                />
+              )}
+              <Icon className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-0.5">
+                {t(tabItem.label)}
+                {tabItem.badge && (
+                  <span className="bg-[#F59E0B] text-white text-[8px] font-bold px-1 rounded-full">
+                    {tabItem.badge}
+                  </span>
+                )}
+              </span>
+            </motion.button>
+          );
+        })}
       </div>
 
-      {/* Age Filter Chips */}
+      {/* Age Filter Floating Capsules */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
         <span className="text-[11px] font-bold text-[#8C8479] whitespace-nowrap pl-1">
           {t("Yosh toifasi")}:
@@ -305,10 +291,10 @@ export const Bolajon: React.FC = () => {
           <button
             key={age}
             onClick={() => setSelectedAgeFilter(age)}
-            className={`px-3 py-1.5 rounded-full font-bold transition-all whitespace-nowrap ${
+            className={`px-3.5 py-1.5 rounded-full font-bold transition-all whitespace-nowrap text-xs ${
               selectedAgeFilter === age
-                ? 'bg-[#2D2A26] text-white shadow-xs'
-                : 'bg-[#FAF6EF] text-[#7C746B] hover:bg-[#F2ECE1] border border-[#EFE8DC]'
+                ? 'bg-[#DB2777] text-white shadow-xs'
+                : 'bg-white text-[#9D4C6C] hover:bg-pink-50 border border-[#FCE7F3]'
             }`}
           >
             {age === 'Barchasi' ? t("Barchasi") : `${age} ${t("yosh")}`}
@@ -318,42 +304,35 @@ export const Bolajon: React.FC = () => {
 
       {/* SUB-TAB 1: ERTAKLAR (READ) */}
       {subTab === 'ertaklar' && (
-        <div className="grid grid-cols-2 gap-2 pt-0.5">
+        <div className="space-y-3">
           {filteredTales.map(tale => (
             <motion.div
               key={tale.id}
               whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
               onClick={() => handleOpenTale(tale)}
-              className="card-3d p-0 overflow-hidden cursor-pointer group flex flex-col justify-between"
+              className="card-pink p-3 rounded-2xl flex items-center justify-between cursor-pointer group"
             >
-              <div>
-                <div className="relative h-24 overflow-hidden rounded-t-xl">
-                  <img
-                    src={tale.muqova_rasm_url}
-                    alt={tale.sarlavha}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-xs text-white text-[8.5px] font-bold px-1.5 py-0.2 rounded-md">
-                    {tale.yosh_toifasi} {t("yosh")}
-                  </span>
-                </div>
-                <div className="p-2">
-                  <h4 className="font-extrabold text-[11px] text-[#2D2A26] line-clamp-1">
+              <div className="flex items-center gap-3">
+                <img
+                  src={tale.muqova_rasm_url}
+                  alt={tale.sarlavha}
+                  referrerPolicy="no-referrer"
+                  className="w-14 h-14 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div>
+                  <h4 className="font-extrabold text-[11px] text-[#2E121D] line-clamp-1">
                     {t(tale.sarlavha)}
                   </h4>
-                  <p className="text-[9px] text-[#8C8479] mt-0.5">
-                    {tale.sahifalar.length} {t("sahifali rangli ertak")}
+                  <p className="text-[10px] text-[#9D4C6C] mt-0.5 flex items-center gap-2">
+                    <span>{tale.yosh_toifasi} {t("yosh")}</span>
+                    <span>•</span>
+                    <span>{tale.o_qish_vaqti_daq} {t("daq")}</span>
                   </p>
                 </div>
               </div>
-
-              <div className="p-2 pt-0">
-                <button className="btn-3d-secondary w-full py-1 text-[10px] flex items-center justify-center gap-0.5">
-                  <span>{t("O'qish")}</span>
-                  <ChevronRight className="w-3 h-3 text-[#FF6B4A]" />
-                </button>
-              </div>
+              <button className="w-8 h-8 rounded-full bg-pink-50 text-[#DB2777] flex items-center justify-center group-hover:bg-[#DB2777] group-hover:text-white transition-colors">
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </motion.div>
           ))}
         </div>
@@ -363,19 +342,14 @@ export const Bolajon: React.FC = () => {
       {subTab === 'audio' && (
         <div className="space-y-4 pt-1">
           {!user.is_premium && (
-            <div className="bg-amber-50 border border-amber-200 p-3.5 rounded-2xl flex items-center justify-between text-xs">
-              <div className="space-y-0.5">
-                <p className="font-extrabold text-amber-900 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                  {t("Audio Ertaklar Rejimi")}
-                </p>
-                <p className="text-[10px] text-amber-800">
-                  {t("Farzandingiz uxlashi oldidan tinchlantiruvchi ovozda ertak tinglaydi.")}
-                </p>
+            <div className="card-rose-banner p-3.5 rounded-2xl flex items-center justify-between">
+              <div>
+                <p className="text-xs font-bold text-white">{t("Audio ertaklar Premium a'zolar uchun!")}</p>
+                <p className="text-[10px] text-white/90">{t("Barcha ertaklarni professional ovozda tinglang")}</p>
               </div>
               <button
                 onClick={() => setShowPaymentModal(true)}
-                className="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-[10px] whitespace-nowrap shadow-xs"
+                className="btn-gold-pill px-3 py-1 text-xs font-black shadow-xs"
               >
                 {t("Ochish")} 👑
               </button>
@@ -383,7 +357,7 @@ export const Bolajon: React.FC = () => {
           )}
 
           {/* Premium Audio Player Card */}
-          <div className="bg-gradient-to-br from-[#2D2A26] via-[#3D3730] to-[#25221F] p-5 rounded-3xl text-white space-y-4 shadow-xl border border-[#433E38] relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#BE185D] via-[#DB2777] to-[#831843] p-5 rounded-3xl text-white space-y-4 shadow-xl border border-pink-300/30 relative overflow-hidden">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-sm font-black">
@@ -665,7 +639,7 @@ export const Bolajon: React.FC = () => {
                       className={`w-full py-2.5 font-bold text-xs rounded-2xl transition-all flex items-center justify-center gap-1 ${
                         isDone
                           ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-[#2D2A26] text-white hover:bg-[#433E38]'
+                          : 'bg-[#DB2777] text-white hover:bg-[#BE185D]'
                       }`}
                     >
                       {isDone ? (
@@ -932,7 +906,7 @@ export const Bolajon: React.FC = () => {
             ) : (
               <button
                 onClick={() => setSelectedRiddle(null)}
-                className="w-full py-3 bg-[#2D2A26] text-white text-xs font-bold rounded-2xl"
+                className="w-full py-3 bg-[#DB2777] text-white text-xs font-bold rounded-2xl hover:bg-[#BE185D] transition-colors"
               >
                 {t("Yopish")}
               </button>

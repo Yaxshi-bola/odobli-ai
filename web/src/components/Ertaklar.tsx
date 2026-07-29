@@ -69,34 +69,34 @@ export const Ertaklar: React.FC = () => {
     <div className="space-y-6 pb-28 pt-2">
       
       {/* Top Banner */}
-      <div className="card-burgundy-banner p-4 rounded-2xl flex items-center justify-between shadow-lg">
+      <div className="bg-gradient-to-r from-[#F3F0FF] to-[#E8E0FF] p-4 rounded-3xl border border-[#DCD0FF] flex items-center justify-between shadow-xs">
         <div>
-          <div className="inline-flex items-center gap-1 bg-white/20 text-[#F59E0B] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full mb-1 border border-white/20 backdrop-blur-md">
-            <Sparkles className="w-3 h-3 text-[#F59E0B]" />
+          <div className="inline-flex items-center gap-1 bg-[#7C3AED] text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full mb-1">
+            <Sparkles className="w-3 h-3 text-purple-200" />
             {t("Bolalar dunyosi")}
           </div>
-          <h2 className="text-xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl font-extrabold text-[#2D2A26] tracking-tight">
             {t("Ertaklar to'plami")}
           </h2>
-          <p className="text-xs text-white/90 mt-0.5 max-w-[220px]">
+          <p className="text-xs text-[#584D70] mt-0.5 max-w-[220px]">
             {t("Sehrli, mehrli va tarbiyaviy hikoyalar dunyosi")}
           </p>
         </div>
-        <div className="w-14 h-14 rounded-2xl bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-3xl shadow-xs">
-          🏰
+        <div className="w-16 h-16 rounded-2xl bg-white/80 border border-[#7C3AED]/20 flex items-center justify-center text-3xl shadow-xs">
+          📖
         </div>
       </div>
 
-      {/* Age Filter Tabs (Capsules) */}
+      {/* Age Filter Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-1">
         {ageFilters.map(filter => (
           <button
             key={filter.id}
             onClick={() => setSelectedAgeFilter(filter.id)}
-            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
               selectedAgeFilter === filter.id
-                ? 'bg-[#5A1827] text-white shadow-xs'
-                : 'bg-white dark:bg-[#1E1E1E] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800'
+                ? 'bg-[#7C3AED] text-white shadow-xs'
+                : 'bg-white text-[#6B6359] border border-[#EFE8DC] hover:bg-[#F5F3FF]'
             }`}
           >
             {t(filter.label)}
@@ -110,48 +110,35 @@ export const Ertaklar: React.FC = () => {
           <div
             key={tale.id}
             onClick={() => openTaleReader(tale)}
-            className="card-premium p-3.5 flex flex-col justify-between cursor-pointer group"
+            className="bg-white p-3.5 rounded-3xl border border-[#EFE8DC] hover:border-[#7C3AED] transition-all cursor-pointer shadow-2xs group flex flex-col justify-between"
           >
             <div>
-              <div className="relative mb-3 overflow-hidden rounded-2xl">
+              <div className="relative mb-3">
                 <img
                   src={tale.muqova_rasm_url}
                   alt={tale.sarlavha}
                   referrerPolicy="no-referrer"
-                  className="w-full h-44 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300 shadow-xs"
+                  className="w-full h-40 object-cover rounded-2xl group-hover:scale-102 transition-transform shadow-xs"
                 />
-                <span className="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-white/20">
+                <span className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur text-[#7C3AED] text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-purple-200 shadow-2xs">
                   {tale.yosh_toifasi} {t("yosh")}
                 </span>
-
-                {/* Direct Play button overlay */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openTaleReader(tale);
-                    setIsPlayingAudio(true);
-                  }}
-                  className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-[#F59E0B] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all"
-                  title="Audio tinglash"
-                >
-                  <Volume2 className="w-5 h-5 fill-white" />
-                </button>
               </div>
 
-              <h3 className="font-bold text-gray-900 dark:text-white text-base group-hover:text-[#5A1827] dark:group-hover:text-amber-400 transition-colors">
+              <h3 className="font-bold text-[#2D2A26] text-base group-hover:text-[#7C3AED] transition-colors">
                 {t(tale.sarlavha)}
               </h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2">
+              <p className="text-xs text-[#7C746B] mt-0.5 line-clamp-2">
                 {t(tale.sahifalar[0]?.matn || '')}
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
+            <div className="mt-4 pt-3 border-t border-[#F5F0E6] flex items-center justify-between text-xs text-[#8C8479] font-medium">
               <span className="flex items-center gap-1">
-                <BookOpen className="w-3.5 h-3.5 text-[#5A1827] dark:text-amber-400" />
+                <BookOpen className="w-3.5 h-3.5 text-[#7C3AED]" />
                 {tale.sahifalar.length} {t("sahifa")}
               </span>
-              <span className="text-[#5A1827] dark:text-amber-400 font-bold group-hover:underline flex items-center gap-0.5">
+              <span className="text-[#7C3AED] font-bold group-hover:underline flex items-center gap-0.5">
                 {t("O'qish")} →
               </span>
             </div>
@@ -161,24 +148,24 @@ export const Ertaklar: React.FC = () => {
 
       {/* PAGE-BY-PAGE READER MODE MODAL */}
       {readingTale && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-[#1E1E1E] w-full max-w-md h-[92vh] max-h-[750px] rounded-3xl p-4 sm:p-5 flex flex-col justify-between border border-gray-200 dark:border-gray-800 shadow-2xl relative overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-[#1A1816]/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-[#FFFDF9] w-full max-w-md h-[92vh] max-h-[750px] rounded-3xl p-4 sm:p-5 flex flex-col justify-between border border-[#EFE8DC] shadow-2xl relative overflow-hidden">
             
             {/* Top Navigation Bar */}
-            <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+            <div className="flex items-center justify-between border-b border-[#EFE8DC] pb-3">
               <button
                 onClick={closeReader}
-                className="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors flex items-center gap-1 text-xs font-bold"
+                className="p-1.5 text-[#6B6359] hover:bg-[#F2ECE1] rounded-full transition-colors flex items-center gap-1 text-xs font-bold"
               >
                 <ArrowLeft className="w-4 h-4" />
                 {t("Chiqish")}
               </button>
 
               <div className="text-center">
-                <h4 className="font-extrabold text-gray-900 dark:text-white text-sm">
+                <h4 className="font-extrabold text-[#2D2A26] text-sm">
                   {t(readingTale.sarlavha)}
                 </h4>
-                <p className="text-[10px] text-gray-500 font-semibold">
+                <p className="text-[10px] text-[#8C8479] font-semibold">
                   {currentPageIdx + 1} / {readingTale.sahifalar.length} {t("sahifa")}
                 </p>
               </div>
@@ -187,7 +174,7 @@ export const Ertaklar: React.FC = () => {
               <button
                 onClick={toggleAudio}
                 className={`p-2 rounded-full transition-colors flex items-center gap-1 ${
-                  isPlayingAudio ? 'bg-[#F59E0B] text-white animate-pulse' : 'bg-amber-50 dark:bg-amber-950/40 text-[#D97706]'
+                  isPlayingAudio ? 'bg-[#7C3AED] text-white animate-pulse' : 'bg-[#F3F0FF] text-[#7C3AED]'
                 }`}
                 title="Ovozli ijro"
               >
@@ -195,22 +182,14 @@ export const Ertaklar: React.FC = () => {
               </button>
             </div>
 
-            {/* SPOTIFY-STYLE FLOATING MINI AUDIO PLAYER */}
+            {/* Audio Playing Bar */}
             {isPlayingAudio && (
-              <div className="bg-[#5A1827] text-white px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-between shadow-lg my-1 animate-in slide-in-from-bottom-2">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-3 h-3 rounded-full bg-[#F59E0B] animate-ping" />
-                  <div>
-                    <p className="font-bold text-white text-xs leading-none">{t(readingTale.sarlavha)}</p>
-                    <p className="text-[10px] text-amber-200 mt-0.5">Audio PRO • Uz-Uz Narrator</p>
-                  </div>
-                </div>
-                <button
-                  onClick={toggleAudio}
-                  className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-white"
-                >
-                  <Volume2 className="w-3.5 h-3.5" />
-                </button>
+              <div className="bg-purple-100 text-purple-900 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center justify-between border border-purple-200 my-1 animate-fadeIn">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-600 animate-ping" />
+                  {t("Ovozli hikoya o'qilmoqda...")}
+                </span>
+                <span className="text-[10px] opacity-75">🔊 Uz-Uz Narrator</span>
               </div>
             )}
 
@@ -221,29 +200,29 @@ export const Ertaklar: React.FC = () => {
                   src={readingTale.sahifalar[currentPageIdx]?.rasm_url || readingTale.muqova_rasm_url}
                   alt="Story scene"
                   referrerPolicy="no-referrer"
-                  className="w-full h-56 sm:h-64 object-cover rounded-2xl"
+                  className="w-full h-56 sm:h-64 object-cover"
                 />
                 <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur text-white text-[10px] px-2.5 py-0.5 rounded-full">
                   {currentPageIdx + 1}-{t("rasm")}
                 </div>
               </div>
 
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xs">
-                <p className="text-gray-900 dark:text-gray-100 text-sm sm:text-base leading-relaxed font-medium">
+              <div className="bg-[#FAF6EF] p-4 rounded-2xl border border-[#ECE2D2] shadow-2xs">
+                <p className="text-[#2D2A26] text-sm sm:text-base leading-relaxed font-medium">
                   {t(readingTale.sahifalar[currentPageIdx]?.matn || '')}
                 </p>
               </div>
             </div>
 
             {/* Bottom Page Navigation Controls */}
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3">
+            <div className="pt-3 border-t border-[#EFE8DC] flex items-center justify-between gap-3">
               <button
                 onClick={handlePrevPage}
                 disabled={currentPageIdx === 0}
                 className={`flex-1 py-3 px-4 rounded-2xl text-xs font-bold flex items-center justify-center gap-1 transition-all min-h-[44px] ${
                   currentPageIdx === 0
-                    ? 'bg-gray-100 text-gray-400 dark:bg-gray-800 cursor-not-allowed'
-                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-50 active:scale-95'
+                    ? 'bg-[#F0ECE1] text-[#A8A095] cursor-not-allowed'
+                    : 'bg-white border border-[#EFE8DC] text-[#2D2A26] hover:bg-[#F7F2EA] active:scale-95'
                 }`}
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -255,8 +234,8 @@ export const Ertaklar: React.FC = () => {
                 disabled={currentPageIdx === readingTale.sahifalar.length - 1}
                 className={`flex-1 py-3 px-4 rounded-2xl text-xs font-bold flex items-center justify-center gap-1 transition-all min-h-[44px] ${
                   currentPageIdx === readingTale.sahifalar.length - 1
-                    ? 'bg-[#5A1827]/40 text-white cursor-not-allowed'
-                    : 'btn-primary-burgundy active:scale-95'
+                    ? 'bg-[#7C3AED]/40 text-white cursor-not-allowed'
+                    : 'bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-md shadow-[#7C3AED]/20 active:scale-95'
                 }`}
               >
                 {t("Keyingi")}

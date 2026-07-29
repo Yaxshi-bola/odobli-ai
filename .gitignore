@@ -1,19 +1,9 @@
-# Environment & Secrets
 .env
-*.env
-.env.*
-!.env.example
-
-# Python
+.env.local
+.env.production
+credentials.json
 __pycache__/
-*.py[cod]
-*$py.class
-*.db
-*.sqlite3
-
-# Node & Build
+*.pyc
 node_modules/
 dist/
-.vercel/
-.idea/
-.vscode/
+odobli.db

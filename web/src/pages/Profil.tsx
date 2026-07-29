@@ -59,8 +59,9 @@ export const Profil: React.FC<ProfilProps> = ({ user, script, onToggleScript }) 
         <button
           style={{ background: '#FF6B4A', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '12px', fontSize: '11.5px', fontWeight: 800, cursor: 'pointer' }}
           onClick={() => {
-            if (window.Telegram?.WebApp) {
-              window.Telegram.WebApp.close();
+            const tg = (window as any).Telegram;
+            if (tg?.WebApp) {
+              tg.WebApp.close();
             }
           }}
         >

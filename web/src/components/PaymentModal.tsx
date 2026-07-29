@@ -58,7 +58,7 @@ export const PaymentModal: React.FC = () => {
             </div>
 
             {/* Payment Step 1: Card Details */}
-            <div className="bg-gradient-to-r from-[#2D2A26] to-[#433E38] p-4 rounded-2xl text-white space-y-2 shadow-sm">
+            <div className="bg-gradient-to-r from-[#BE185D] to-[#DB2777] p-4 rounded-2xl text-white space-y-2 shadow-md">
               <div className="flex items-center justify-between text-xs text-amber-300 font-semibold">
                 <span>UZCARD / HUMO</span>
                 <span>Odobli.ai Rasmiy</span>
@@ -76,26 +76,26 @@ export const PaymentModal: React.FC = () => {
                   {copied ? t("Nusxalandi!") : t("Nusxalash")}
                 </button>
               </div>
-              <p className="text-[11px] text-[#D1C9BD]">
-                {t("Qabul qiluvchi")}: Ona va Bola Ta'lim Jamg'armasi
+              <p className="text-[11px] text-pink-100">
+                {t("Qabul qiluvchi")}: Odobli.ai Jamg'armasi
               </p>
             </div>
 
             {/* Payment Step 2: Upload Screenshot Form */}
             <form onSubmit={handleSendProof} className="space-y-3 pt-1">
-              <label className="text-xs font-bold text-[#4A443C] block">
+              <label className="text-xs font-bold text-[#2E121D] block">
                 {t("To'lov cheki (Screenshot) faylini biriktiring")}:
               </label>
 
-              <div className="border-2 border-dashed border-[#DCD4C7] rounded-2xl p-4 text-center bg-[#FDFBF7] space-y-2">
+              <div className="border-2 border-dashed border-pink-200 rounded-2xl p-4 text-center bg-pink-50/50 space-y-2">
                 <img
                   src={screenshotUrl}
                   alt="Proof preview"
                   className="w-full h-28 object-cover rounded-xl shadow-2xs mx-auto"
                 />
                 <div className="flex items-center justify-center gap-2">
-                  <Upload className="w-4 h-4 text-[#FF6B4A]" />
-                  <span className="text-xs font-bold text-[#FF6B4A]">
+                  <Upload className="w-4 h-4 text-[#DB2777]" />
+                  <span className="text-xs font-bold text-[#DB2777]">
                     {t("Chek rasmi tanlandi")} (250 KB)
                   </span>
                 </div>
@@ -103,7 +103,7 @@ export const PaymentModal: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#FF6B4A] hover:bg-[#E8593A] text-white font-black text-xs rounded-2xl shadow-md shadow-[#FF6B4A]/25 transition-all active:scale-98 min-h-[48px]"
+                className="btn-rose-pill w-full py-3.5 text-xs font-black min-h-[48px]"
               >
                 {t("To'ladim — Chekni Adminga yuborish")} →
               </button>
@@ -115,14 +115,14 @@ export const PaymentModal: React.FC = () => {
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl">
               <CheckCircle2 className="w-10 h-10" />
             </div>
-            <h3 className="text-xl font-black text-[#2D2A26]">
+            <h3 className="text-xl font-black text-[#2E121D]">
               {t("To'lov cheki qabul qilindi!")}
             </h3>
-            <p className="text-xs text-[#6B6359] max-w-xs mx-auto leading-relaxed">
+            <p className="text-xs text-[#9D4C6C] max-w-xs mx-auto leading-relaxed">
               {t("Admin (sizning Telegram ID) xabarni oldi. Tasdiqlanishi bilan status avtomatik Premium bo'ladi.")}
             </p>
-            <div className="bg-[#FAF6EF] p-3 rounded-2xl border border-[#EFE8DC] text-xs text-[#7C746B]">
-              <p className="font-bold text-[#2D2A26] mb-0.5">{t("Holat")}: <span className="text-amber-600">⏳ Kutilmoqda</span></p>
+            <div className="bg-pink-50 p-3 rounded-2xl border border-pink-100 text-xs text-[#9D4C6C]">
+              <p className="font-bold text-[#2E121D] mb-0.5">{t("Holat")}: <span className="text-amber-600">⏳ Kutilmoqda</span></p>
               <p>{t("Admin tekshirib tasdiqlagach, Premium status avtomatik faollashadi.")}</p>
             </div>
             <button
@@ -130,7 +130,7 @@ export const PaymentModal: React.FC = () => {
                 setShowPaymentModal(false);
                 setIsSubmitted(false);
               }}
-              className="w-full py-3 bg-[#2D2A26] text-white text-xs font-bold rounded-2xl mt-2"
+              className="btn-rose-pill w-full py-3 text-xs font-bold mt-2"
             >
               {t("Tushunarli")}
             </button>

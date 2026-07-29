@@ -10,6 +10,17 @@ interface State {
 }
 
 export class ErrorBoundary extends Component<Props, State> {
+  public props: Props;
+
+  constructor(props: Props) {
+    super(props);
+    this.props = props;
+    this.state = {
+      hasError: false,
+      error: null
+    };
+  }
+
   public state: State = {
     hasError: false,
     error: null
@@ -41,7 +52,7 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#FCE7F0] text-[#2E121D] flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <div className="min-h-screen bg-[#F8F9FA] text-[#1E1B24] flex flex-col items-center justify-center p-6 text-center space-y-4">
           <div className="w-16 h-16 rounded-3xl bg-[#DB2777] text-white text-3xl flex items-center justify-center shadow-lg">
             ✨
           </div>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { motion } from 'motion/react';
 import { useApp } from '../context/AppContext';
 import { Flame, Star, ShieldCheck, Sparkles, Search, X, ChevronRight, ChefHat, BookOpen, Lightbulb } from 'lucide-react';
 
@@ -25,126 +27,141 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-[#FAF6F0]/95 dark:bg-[#0F0E13]/95 backdrop-blur-md px-4 py-3 border-b border-[#EFEADF] dark:border-[#2A2836] transition-all">
+      <header className="sticky top-0 z-40 glass-header px-4 py-2.5 transition-all">
         <div className="max-w-md mx-auto flex items-center justify-between gap-3">
           
           {/* Brand Logo & Title */}
-          <div 
+          <motion.div 
+            whileTap={{ scale: 0.96 }}
             onClick={() => setActiveTab('home')}
             className="flex items-center gap-2.5 cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-2xl bg-[#5A1827] text-white flex items-center justify-center font-bold text-xl shadow-md group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#DB2777] to-[#F472B6] text-white flex items-center justify-center font-bold text-lg shadow-md group-hover:scale-105 transition-transform">
               ✨
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <h1 className="font-extrabold text-[#5A1827] dark:text-white text-lg tracking-tight leading-none">
+                <h1 className="font-extrabold text-[#831843] text-lg tracking-tight leading-none">
                   odobli.ai
                 </h1>
                 {user.is_premium ? (
-                  <span className="badge-gold">
+                  <span className="badge-gold text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-xs">
                     PRO
                   </span>
                 ) : (
-                  <span className="bg-amber-50 dark:bg-amber-950/40 text-[#D97706] text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800/50">
+                  <span className="bg-pink-100 text-[#DB2777] text-[10px] font-bold px-2 py-0.5 rounded-full border border-pink-200">
                     TRIAL
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium mt-0.5 line-clamp-1">
+              <p className="text-[11px] text-[#9D4C6C] font-medium mt-0.5 line-clamp-1">
                 {user.ism || t("Foydalanuvchi")}
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Actions (Search & Language/Script switcher) */}
           <div className="flex items-center gap-2">
             
             {/* Search Trigger Button (Visible only on non-home tabs) */}
             {activeTab !== 'home' && (
-              <button
+              <motion.button
+                whileTap={{ scale: 0.92 }}
                 onClick={() => setShowSearchModal(true)}
-                className="w-9 h-9 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 text-[#5A1827] dark:text-white rounded-full border border-gray-200 dark:border-gray-700 shadow-xs flex items-center justify-center transition-all active:scale-95"
+                className="w-9 h-9 bg-white hover:bg-pink-50 text-[#DB2777] rounded-full border border-[#FCE7F3] shadow-xs flex items-center justify-center transition-all"
                 title="Qidiruv"
               >
                 <Search className="w-4 h-4" />
-              </button>
+              </motion.button>
             )}
 
             {/* Script Toggle Pill */}
-            <button
+            <motion.button
+              whileTap={{ scale: 0.94 }}
               onClick={() => setScript(script === 'lotin' ? 'kirill' : 'lotin')}
-              className="px-3 py-1.5 text-[11px] font-bold bg-[#5A1827] text-white hover:bg-[#3E101B] rounded-full shadow-xs flex items-center gap-1.5 transition-all active:scale-95 shrink-0"
+              className="px-3 py-1.5 text-[11px] font-bold bg-[#DB2777] text-white hover:bg-[#BE185D] rounded-full shadow-xs flex items-center gap-1.5 transition-all shrink-0"
               title="Lotin / Kirill"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#FBBF24]" />
               <span>{script === 'lotin' ? 'Lotin' : 'Кирилл'}</span>
-            </button>
+            </motion.button>
 
           </div>
 
         </div>
       </header>
 
-      {/* Global Search Overlay Modal */}
-      {showSearchModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-start justify-center p-4 pt-12 animate-in fade-in duration-150">
-          <div className="bg-white w-full max-w-md max-h-[85vh] rounded-3xl p-4 border border-[#FCE7F3] shadow-2xl flex flex-col space-y-3">
+      {/* Global Search Overlay Modal Mounted via React Portal to Document Body */}
+      {showSearchModal && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-black/75 backdrop-blur-xl flex items-start justify-center p-4 pt-10 overscroll-contain animate-in fade-in duration-150">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ type: 'spring', bounce: 0.1, duration: 0.3 }}
+            className="bg-white w-full max-w-md max-h-[85vh] rounded-3xl p-4 border border-[#FCE7F3] shadow-2xl flex flex-col space-y-3 relative"
+          >
             
             <div className="flex items-center justify-between border-b border-[#FCE7F3] pb-2.5">
               <span className="text-xs font-bold text-[#831843] uppercase tracking-wider flex items-center gap-1.5">
                 <Search className="w-4 h-4 text-[#DB2777]" />
                 {t("Umumiy Qidiruv")}
               </span>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.9 }}
                 onClick={() => {
                   setShowSearchModal(false);
                   setGlobalSearch('');
                 }}
-                className="p-1 rounded-full hover:bg-gray-100 text-gray-500"
+                className="p-1.5 rounded-full bg-pink-50 hover:bg-pink-100 text-[#DB2777] transition-colors"
               >
-                <X className="w-5 h-5" />
-              </button>
+                <X className="w-4 h-4" />
+              </motion.button>
             </div>
 
             <div className="relative">
               <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                autoFocus
                 value={globalSearch}
                 onChange={e => setGlobalSearch(e.target.value)}
-                placeholder={t("Retsept, ertak yoki lifehack nomini yozing...")}
-                className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white border border-[#EFE8DC] text-xs focus:outline-none focus:border-[#FF6B4A]"
+                placeholder={t("Masalliq, taom nomi, ertak yoki lifehack...")}
+                className="w-full pl-9 pr-3 py-2.5 rounded-2xl bg-pink-50/50 border border-pink-100 text-xs font-bold text-[#2E121D] focus:outline-none focus:border-[#DB2777]"
+                autoFocus
               />
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-3 pt-1">
+            {/* Results List */}
+            <div className="flex-1 overflow-y-auto space-y-3 pr-1 no-scrollbar pt-1">
               {!globalSearch.trim() ? (
-                <p className="text-center text-xs text-[#8C8479] py-8">
-                  {t("Ilovadagi barcha retseptlar, ertaklar va lifehacklarni tezda toping.")}
-                </p>
+                <div className="text-center py-8 text-xs text-gray-400 space-y-1">
+                  <p className="font-bold text-[#9D4C6C]">{t("Qidirish uchun matn kiriting")}</p>
+                  <p className="text-[11px]">{t("Masalan: palov, manti, quyoncha, karving...")}</p>
+                </div>
               ) : (
                 <>
                   {/* Recipes Section */}
                   {filteredRecipes.length > 0 && (
-                    <div className="space-y-1.5">
-                      <p className="text-[11px] font-black text-[#FF6B4A] flex items-center gap-1">
-                        <ChefHat className="w-3.5 h-3.5" />
-                        {t("Retseptlar")} ({filteredRecipes.length})
-                      </p>
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-black text-[#DB2777] uppercase tracking-wider block">
+                        🍲 {t("Retseptlar")} ({filteredRecipes.length})
+                      </span>
                       {filteredRecipes.map(r => (
                         <div
                           key={r.id}
                           onClick={() => {
                             setShowSearchModal(false);
-                            setGlobalSearch('');
+                            setActiveTab('pazanda');
                             openRecipeModal(r);
                           }}
-                          className="p-2.5 rounded-xl bg-white border border-[#EFE8DC] hover:border-[#FF6B4A] cursor-pointer flex items-center justify-between text-xs font-semibold"
+                          className="p-2 bg-white rounded-2xl border border-pink-100 hover:border-pink-300 flex items-center gap-2.5 cursor-pointer shadow-2xs transition-all"
                         >
-                          <span className="font-bold text-[#2D2A26]">{t(r.nomi)}</span>
-                          <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                          <img src={r.rasm_url} alt={r.nomi} className="w-10 h-10 rounded-xl object-cover" />
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-bold text-xs text-[#2E121D] truncate">{t(r.nomi)}</h4>
+                            <p className="text-[10px] text-gray-500 line-clamp-1">{t(r.tarif_matni)}</p>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-gray-400" />
                         </div>
                       ))}
                     </div>
@@ -152,23 +169,26 @@ export const Header: React.FC = () => {
 
                   {/* Tales Section */}
                   {filteredTales.length > 0 && (
-                    <div className="space-y-1.5">
-                      <p className="text-[11px] font-black text-[#7C3AED] flex items-center gap-1">
-                        <BookOpen className="w-3.5 h-3.5" />
-                        {t("Ertaklar")} ({filteredTales.length})
-                      </p>
-                      {filteredTales.map(tale => (
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-black text-purple-600 uppercase tracking-wider block">
+                        🏰 {t("Ertaklar")} ({filteredTales.length})
+                      </span>
+                      {filteredTales.map(tItem => (
                         <div
-                          key={tale.id}
+                          key={tItem.id}
                           onClick={() => {
                             setShowSearchModal(false);
-                            setGlobalSearch('');
-                            openTaleModal(tale);
+                            setActiveTab('bolajon');
+                            openTaleModal(tItem);
                           }}
-                          className="p-2.5 rounded-xl bg-white border border-[#EFE8DC] hover:border-[#7C3AED] cursor-pointer flex items-center justify-between text-xs font-semibold"
+                          className="p-2 bg-white rounded-2xl border border-purple-100 hover:border-purple-300 flex items-center gap-2.5 cursor-pointer shadow-2xs transition-all"
                         >
-                          <span className="font-bold text-[#2D2A26]">{t(tale.sarlavha)}</span>
-                          <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                          <img src={tItem.muqova_rasm_url} alt={tItem.sarlavha} className="w-10 h-10 rounded-xl object-cover" />
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-bold text-xs text-[#2E121D] truncate">{t(tItem.sarlavha)}</h4>
+                            <p className="text-[10px] text-purple-500 font-semibold">{tItem.yosh_toifasi} {t("yosh")}</p>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-gray-400" />
                         </div>
                       ))}
                     </div>
@@ -176,23 +196,28 @@ export const Header: React.FC = () => {
 
                   {/* Lifehacks Section */}
                   {filteredLifehacks.length > 0 && (
-                    <div className="space-y-1.5">
-                      <p className="text-[11px] font-black text-[#059669] flex items-center gap-1">
-                        <Lightbulb className="w-3.5 h-3.5" />
-                        {t("Lifehacklar")} ({filteredLifehacks.length})
-                      </p>
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider block">
+                        💡 {t("Lifehacklar")} ({filteredLifehacks.length})
+                      </span>
                       {filteredLifehacks.map(lh => (
                         <div
                           key={lh.id}
                           onClick={() => {
                             setShowSearchModal(false);
-                            setGlobalSearch('');
+                            setActiveTab('lifehacklar');
                             openLifehackModal(lh);
                           }}
-                          className="p-2.5 rounded-xl bg-white border border-[#EFE8DC] hover:border-[#059669] cursor-pointer flex items-center justify-between text-xs font-semibold"
+                          className="p-2 bg-white rounded-2xl border border-emerald-100 hover:border-emerald-300 flex items-center gap-2.5 cursor-pointer shadow-2xs transition-all"
                         >
-                          <span className="font-bold text-[#2D2A26]">{t(lh.sarlavha)}</span>
-                          <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                          {lh.rasm_url && (
+                            <img src={lh.rasm_url} alt={lh.sarlavha} className="w-10 h-10 rounded-xl object-cover" />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-bold text-xs text-[#2E121D] truncate">{t(lh.sarlavha)}</h4>
+                            <p className="text-[10px] text-emerald-600 capitalize font-semibold">{t(lh.kategoriya)}</p>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-gray-400" />
                         </div>
                       ))}
                     </div>
@@ -207,8 +232,9 @@ export const Header: React.FC = () => {
               )}
             </div>
 
-          </div>
-        </div>
+          </motion.div>
+        </div>,
+        document.body
       )}
     </>
   );

@@ -7,6 +7,7 @@ import { PazandaAI } from './components/PazandaAI';
 import { Bolajon } from './components/Bolajon';
 import { Lifehacklar } from './components/Lifehacklar';
 import { Profil } from './components/Profil';
+import { AdminPanel } from './components/AdminPanel';
 
 import { PaymentModal } from './components/PaymentModal';
 import { RewardModal } from './components/RewardModal';
@@ -16,7 +17,7 @@ const AppContent: React.FC = () => {
   const { activeTab } = useApp();
 
   return (
-    <div className="min-h-screen bg-[#FCE7F0] text-[#2E121D] font-sans antialiased selection:bg-[#DB2777]/20">
+    <div className="min-h-screen bg-[#FFF5F7] text-[#2E121D] font-sans antialiased selection:bg-[#DB2777]/20">
       
       {/* Dynamic Island Kitchen Timer */}
       <DynamicIslandTimer />
@@ -34,6 +35,7 @@ const AppContent: React.FC = () => {
           {activeTab === 'bolajon' && <Bolajon />}
           {activeTab === 'lifehacklar' && <Lifehacklar />}
           {activeTab === 'profil' && <Profil />}
+          {activeTab === 'admin' && <AdminPanel />}
         </main>
 
         {/* Fixed Mobile Bottom Bar */}

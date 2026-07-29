@@ -38,14 +38,13 @@ export const Lifehacklar: React.FC = () => {
     <div className="space-y-4 pb-28 pt-1">
       
       {/* Header Banner */}
-      <div className="card-rose-banner p-3.5 rounded-2xl relative overflow-hidden shadow-md flex items-center justify-between">
+      <div className="card-burgundy-banner p-3.5 rounded-2xl flex items-center justify-between shadow-xs">
         <div>
-          <div className="inline-flex items-center gap-1 bg-white/20 text-[#FBBF24] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full mb-1 border border-white/10 backdrop-blur-xs">
-            <Sparkles className="w-3 h-3 text-[#FBBF24]" />
-            {t("Foydali maslahatlar")}
-          </div>
-          <h2 className="text-lg font-extrabold text-white tracking-tight">
-            {t("Lifehacklar")}
+          <span className="badge-gold text-[10px] font-extrabold px-2 py-0.5 rounded-full inline-block mb-1">
+            💡 {t("Foydali Maslahatlar")}
+          </span>
+          <h2 className="text-base font-extrabold text-white tracking-tight leading-tight">
+            {t("Oila & Ro'zg'or Lifehacklari")}
           </h2>
           <p className="text-[11px] text-white/90 mt-0.5 max-w-[220px]">
             {t("Oshxona, hunarmandchilik va ro'zg'or uchun tezkor yechimlar")}
@@ -58,19 +57,30 @@ export const Lifehacklar: React.FC = () => {
 
       {/* Category Chips */}
       <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 px-0.5">
-        {categories.map(cat => (
-          <button
-            key={cat.id}
-            onClick={() => setSelectedCat(cat.id)}
-            className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-              selectedCat === cat.id
-                ? 'bg-[#DB2777] text-white shadow-xs'
-                : 'bg-white text-[#9D4C6C] border border-[#FCE7F3] hover:bg-pink-50'
-            }`}
-          >
-            {t(cat.label)}
-          </button>
-        ))}
+        {categories.map(cat => {
+          const isActive = selectedCat === cat.id;
+          return (
+            <motion.button
+              key={cat.id}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => setSelectedCat(cat.id)}
+              className={`relative px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors ${
+                isActive
+                  ? 'text-white'
+                  : 'bg-white text-[#9D4C6C] border border-[#FCE7F3] hover:bg-pink-50'
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeLifehackCatPill"
+                  transition={{ type: 'spring', bounce: 0.15, duration: 0.35 }}
+                  className="absolute inset-0 bg-[#DB2777] rounded-full shadow-xs -z-10"
+                />
+              )}
+              {t(cat.label)}
+            </motion.button>
+          );
+        })}
       </div>
 
       {/* Lifehack Cards */}

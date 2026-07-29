@@ -59,7 +59,7 @@ export const RewardModal: React.FC = () => {
         <div className="space-y-2 pt-1">
           <button
             onClick={() => setRewardDetails(null)}
-            className="w-full py-3.5 bg-[#FF6B4A] hover:bg-[#E8593A] text-white font-black text-xs rounded-2xl shadow-md transition-all active:scale-98 min-h-[44px]"
+            className="btn-rose-pill w-full py-3.5 text-xs font-black min-h-[44px]"
           >
             {t("Davom ettirish")} →
           </button>
@@ -69,7 +69,7 @@ export const RewardModal: React.FC = () => {
               setRewardDetails(null);
               setActiveTab('home');
             }}
-            className="w-full py-2.5 text-[#7C746B] hover:text-[#2D2A26] font-bold text-xs"
+            className="w-full py-2.5 text-[#9D4C6C] hover:text-[#2E121D] font-bold text-xs"
           >
             {t("Bosh sahifaga qaytish")}
           </button>

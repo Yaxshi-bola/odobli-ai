@@ -59,9 +59,25 @@ interface AppContextType {
   // Actions
   toggleRoutineTask: (id: string) => void;
   addRecipe: (recipe: Recipe) => void;
-  addTale: (tale: Tale) => void;
-  addLifehack: (lh: Lifehack) => void;
+  updateRecipe: (recipe: Recipe) => void;
+  deleteRecipe: (id: string) => void;
   toggleRecipeStatus: (id: string) => void;
+
+  addTale: (tale: Tale) => void;
+  updateTale: (tale: Tale) => void;
+  deleteTale: (id: string) => void;
+  toggleTaleStatus: (id: string) => void;
+
+  addLifehack: (lh: Lifehack) => void;
+  deleteLifehack: (id: string) => void;
+  toggleLifehackStatus: (id: string) => void;
+
+  addRiddle: (riddle: Riddle) => void;
+  deleteRiddle: (id: string) => void;
+
+  addIngredient: (ing: Ingredient) => void;
+  grantUserPremium: (durationDays: number) => void;
+  exportBackupData: () => void;
 
   // Shopping List Actions
   addToShoppingList: (nomi: string, miqdori?: string) => void;
@@ -195,11 +211,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [selectedAgeFilter, setSelectedAgeFilter] = useState<string>('Barchasi');
 
-  // Datasets safely initialized with Array.isArray checks
-  const [ingredients] = useState<Ingredient[]>(initialIngredients);
+  // Datasets safely initialized with Array.isArray checks and auto-merging of new system items
+  const [ingredients, setIngredients] = useState<Ingredient[]>(() => {
+    const saved = loadStorage<Ingredient[]>('ingredients', initialIngredients);
+    if (!Array.isArray(saved) || saved.length === 0) return initialIngredients;
+    const savedIds = new Set(saved.map(i => i.id));
+    const missing = initialIngredients.filter(i => !savedIds.has(i.id));
+    return missing.length > 0 ? [...saved, ...missing] : saved;
+  });
   const [recipes, setRecipes] = useState<Recipe[]>(() => {
     const saved = loadStorage<Recipe[]>('recipes', initialRecipes);
-    return Array.isArray(saved) && saved.length > 0 ? saved : initialRecipes;
+    if (!Array.isArray(saved) || saved.length === 0) return initialRecipes;
+    const savedIds = new Set(saved.map(r => r.id));
+    const missing = initialRecipes.filter(r => !savedIds.has(r.id));
+    return missing.length > 0 ? [...saved, ...missing] : saved;
   });
   const [tales, setTales] = useState<Tale[]>(() => {
     const saved = loadStorage<Tale[]>('tales', initialTales);
@@ -209,7 +234,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const saved = loadStorage<Lifehack[]>('lifehacks', initialLifehacks);
     return Array.isArray(saved) && saved.length > 0 ? saved : initialLifehacks;
   });
-  const [riddles] = useState<Riddle[]>(initialRiddles);
+  const [riddles, setRiddles] = useState<Riddle[]>(() => {
+    const saved = loadStorage<Riddle[]>('riddles', initialRiddles);
+    return Array.isArray(saved) && saved.length > 0 ? saved : initialRiddles;
+  });
   const [mathProblems] = useState<MathProblem[]>(initialMathProblems);
   const [paymentProofs, setPaymentProofs] = useState<PaymentProof[]>(() => {
     const saved = loadStorage<PaymentProof[]>('payments', []);
@@ -598,23 +626,101 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
-  // Admin recipe
+  // Admin recipe CRUD
   const addRecipe = (recipe: Recipe) => {
     setRecipes(prev => [recipe, ...prev]);
   };
 
-  const addTale = (tale: Tale) => {
-    setTales(prev => [tale, ...prev]);
+  const updateRecipe = (recipe: Recipe) => {
+    setRecipes(prev => prev.map(r => r.id === recipe.id ? recipe : r));
   };
 
-  const addLifehack = (lh: Lifehack) => {
-    setLifehacks(prev => [lh, ...prev]);
+  const deleteRecipe = (id: string) => {
+    setRecipes(prev => prev.filter(r => r.id !== id));
   };
 
   const toggleRecipeStatus = (id: string) => {
     setRecipes(prev =>
       prev.map(r => (r.id === id ? { ...r, holat: r.holat === 'nashr' ? 'qoralama' : 'nashr' } : r))
     );
+  };
+
+  // Admin tale CRUD
+  const addTale = (tale: Tale) => {
+    setTales(prev => [tale, ...prev]);
+  };
+
+  const updateTale = (tale: Tale) => {
+    setTales(prev => prev.map(t => t.id === tale.id ? tale : t));
+  };
+
+  const deleteTale = (id: string) => {
+    setTales(prev => prev.filter(t => t.id !== id));
+  };
+
+  const toggleTaleStatus = (id: string) => {
+    setTales(prev =>
+      prev.map(t => (t.id === id ? { ...t, holat: t.holat === 'nashr' ? 'qoralama' : 'nashr' } : t))
+    );
+  };
+
+  // Admin lifehack CRUD
+  const addLifehack = (lh: Lifehack) => {
+    setLifehacks(prev => [lh, ...prev]);
+  };
+
+  const deleteLifehack = (id: string) => {
+    setLifehacks(prev => prev.filter(lh => lh.id !== id));
+  };
+
+  const toggleLifehackStatus = (id: string) => {
+    setLifehacks(prev =>
+      prev.map(lh => (lh.id === id ? { ...lh, holat: lh.holat === 'nashr' ? 'qoralama' : 'nashr' } : lh))
+    );
+  };
+
+  // Admin riddle CRUD
+  const addRiddle = (riddle: Riddle) => {
+    setRiddles(prev => [riddle, ...prev]);
+  };
+
+  const deleteRiddle = (id: string) => {
+    setRiddles(prev => prev.filter(r => r.id !== id));
+  };
+
+  // Admin ingredient
+  const addIngredient = (ing: Ingredient) => {
+    setIngredients(prev => [ing, ...prev]);
+  };
+
+  // Admin user & backup tools
+  const grantUserPremium = (durationDays: number) => {
+    setUser(prev => ({
+      ...prev,
+      is_premium: true,
+      premium_until: new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000).toISOString()
+    }));
+  };
+
+  const exportBackupData = () => {
+    const backup = {
+      user,
+      progress,
+      recipes,
+      tales,
+      lifehacks,
+      riddles,
+      ingredients,
+      paymentProofs,
+      timestamp: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `odobli_ai_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   // Payment flow
@@ -698,9 +804,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         toggleFavoriteRecipe,
         toggleRoutineTask,
         addRecipe,
-        addTale,
-        addLifehack,
+        updateRecipe,
+        deleteRecipe,
         toggleRecipeStatus,
+        addTale,
+        updateTale,
+        deleteTale,
+        toggleTaleStatus,
+        addLifehack,
+        deleteLifehack,
+        toggleLifehackStatus,
+        addRiddle,
+        deleteRiddle,
+        addIngredient,
+        grantUserPremium,
+        exportBackupData,
         addToShoppingList,
         addMultipleToShoppingList,
         toggleShoppingItem,

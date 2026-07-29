@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { useApp } from '../context/AppContext';
 import { Recipe, IngredientCategory } from '../types';
@@ -29,6 +30,7 @@ import {
   Plus,
   Square,
   ChevronDown,
+  ChevronRight,
   X
 } from 'lucide-react';
 
@@ -80,16 +82,24 @@ export const PazandaAI: React.FC = () => {
     showToast(isFav ? "Sevimli retseptlardan olib tashlandi" : "Sevimli retseptlarga saqlandi! ❤️");
   };
 
-  // Selected ingredient IDs for match mode
-  const [selectedIngredientIds, setSelectedIngredientIds] = useState<string[]>([
-    'ing_kartoshka', 'ing_piyoz', 'ing_sabzi', 'ing_pomidor', 'ing_tovuq', 'ing_guruch', 'ing_qoy', 'ing_un'
-  ]);
+  // Selected ingredient IDs for match mode (empty by default)
+  const [selectedIngredientIds, setSelectedIngredientIds] = useState<string[]>([]);
 
   // Category filter
   const [selectedCategory, setSelectedCategory] = useState<IngredientCategory | 'barchasi'>('barchasi');
 
   // Active Recipe modal
   const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
+  const [showMatchedRecipesModal, setShowMatchedRecipesModal] = useState<boolean>(false);
+
+  // State for automatic dish ingredient generator in Bozorlik tab (must be before useEffect that references it)
+  const [selectedDishRecipeId, setSelectedDishRecipeId] = useState<string>('');
+  const [dishPortions, setDishPortions] = useState<number>(4);
+  const [showDishSelectModal, setShowDishSelectModal] = useState<boolean>(false);
+  const [dishSearch, setDishSearch] = useState<string>('');
+
+  // Track saved recipes state to prevent double/triple clicks
+  const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
 
   // Portion scaler for recipe modal: 2, 4 (default), 6, 8, 12
   const [portions, setPortions] = useState<number>(4);
@@ -129,7 +139,7 @@ export const PazandaAI: React.FC = () => {
       name.includes('o\'rdak') || name.includes('ordak') || name.includes('g\'oz') || 
       name.includes('goz') || name.includes('kurka') || name.includes('bedana') || 
       name.includes('quyon') || name.includes('ot go\'shti') || name.includes('qazi') || 
-      name.includes('jigar') || name.includes('til') || name.includes('baliq') || name.includes('krevetka')
+      name.includes('jigar') || name.includes('til') || name.includes('baliq')
     ) {
       return 'gosht';
     }
@@ -188,31 +198,74 @@ export const PazandaAI: React.FC = () => {
     return list;
   }, [ingredients, selectedCategory, ingredientSearch]);
 
-  // Matchmaking Algorithm
+  // Matchmaking Algorithm (Ranks 100% full matches, missing 1, and all partial matches)
   const matchingResults = useMemo(() => {
     const publishedRecipes = recipes.filter(r => r.holat === 'nashr');
     
-    const fullMatch: { recipe: Recipe; missingNames: string[] }[] = [];
-    const missingOne: { recipe: Recipe; missingNames: string[] }[] = [];
+    const fullMatch: { recipe: Recipe; missingNames: string[]; matchPercent: number }[] = [];
+    const missingOne: { recipe: Recipe; missingNames: string[]; matchPercent: number }[] = [];
+    const partialMatch: { recipe: Recipe; missingNames: string[]; matchPercent: number }[] = [];
+
+    if (selectedIngredientIds.length === 0) {
+      return { fullMatch: [], missingOne: [], partialMatch: [], allMatches: [] };
+    }
 
     publishedRecipes.forEach(recipe => {
       const required = recipe.required_ingredient_ids || [];
+      if (required.length === 0) return;
+
+      const matchedIds = required.filter(id => selectedIngredientIds.includes(id));
       const missingIds = required.filter(id => !selectedIngredientIds.includes(id));
-      
+
+      // Must have at least 1 matching ingredient
+      if (matchedIds.length === 0) return;
+
+      const matchPercent = Math.round((matchedIds.length / required.length) * 100);
+
       const missingNames = missingIds.map(id => {
         const found = ingredients.find(ing => ing.id === id);
         return found ? found.nomi : id;
       });
 
+      const matchItem = { recipe, missingNames, matchPercent };
+
       if (missingIds.length === 0) {
-        fullMatch.push({ recipe, missingNames: [] });
+        fullMatch.push(matchItem);
       } else if (missingIds.length === 1) {
-        missingOne.push({ recipe, missingNames });
+        missingOne.push(matchItem);
+      } else {
+        partialMatch.push(matchItem);
       }
     });
 
-    return { fullMatch, missingOne };
+    // Sort partial matches by highest match percentage
+    partialMatch.sort((a, b) => b.matchPercent - a.matchPercent);
+
+    const allMatches = [...fullMatch, ...missingOne, ...partialMatch];
+
+    return { fullMatch, missingOne, partialMatch, allMatches };
   }, [recipes, selectedIngredientIds, ingredients]);
+
+  // Lock body scroll whenever any modal is open — bulletproof iOS Safari / Telegram WebView fix
+  useEffect(() => {
+    const isModalOpen = Boolean(activeRecipe || showMatchedRecipesModal || showDishSelectModal);
+    if (isModalOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [activeRecipe, showMatchedRecipesModal, showDishSelectModal]);
 
   // Catalog Recipes
   const catalogRecipes = useMemo(() => {
@@ -263,14 +316,7 @@ export const PazandaAI: React.FC = () => {
     });
   };
 
-  // Track saved recipes state to prevent double/triple clicks
-  const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
-
-  // State for automatic dish ingredient generator in Bozorlik tab
-  const [selectedDishRecipeId, setSelectedDishRecipeId] = useState<string>('');
-  const [dishPortions, setDishPortions] = useState<number>(4);
-  const [showDishSelectModal, setShowDishSelectModal] = useState<boolean>(false);
-  const [dishSearch, setDishSearch] = useState<string>('');
+  // (State declarations for Bozorlik tab moved above useEffect to avoid TDZ)
 
   // Add parsed ingredients to shopping list
   const addRecipeIngredientsToShoppingList = (itemsToAdd: string[]) => {
@@ -374,13 +420,13 @@ export const PazandaAI: React.FC = () => {
       )}
 
       {/* Header Banner */}
-      <div className="card-burgundy-banner p-4 rounded-2xl flex items-center justify-between shadow-lg">
+      <div className="card-rose-banner p-4 rounded-2xl flex items-center justify-between">
         <div>
-          <div className="inline-flex items-center gap-1 bg-white/20 text-[#F59E0B] text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1 border border-white/20 backdrop-blur-md">
-            <Sparkles className="w-3 h-3 text-[#F59E0B]" />
+          <div className="inline-flex items-center gap-1 bg-white/20 text-[#FBBF24] text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1 border border-white/20">
+            <Sparkles className="w-3 h-3 text-[#FBBF24]" />
             {t("O'zbek Milliy Taomlar Bazi")}
           </div>
-          <h2 className="text-base font-bold text-white tracking-tight">
+          <h2 className="text-base font-extrabold text-white tracking-tight mt-1">
             {t("Pazanda AI Retseptlar")}
           </h2>
           <p className="text-[11px] text-white/90 mt-0.5 max-w-[240px] leading-snug">
@@ -393,13 +439,13 @@ export const PazandaAI: React.FC = () => {
       </div>
 
       {/* Main Navigation Modes (4 Tabs) */}
-      <div className="card-premium p-1 rounded-2xl grid grid-cols-4 gap-1 bg-white dark:bg-[#1E1E1E]">
+      <div className="card-pink p-1 rounded-2xl grid grid-cols-4 gap-1 bg-white">
         <button
           onClick={() => setViewMode('match')}
           className={`py-2 rounded-xl text-[11px] font-bold transition-all flex flex-col items-center justify-center gap-0.5 min-h-[44px] ${
             viewMode === 'match'
-              ? 'bg-[#5A1827] text-white shadow-xs'
-              : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'bg-[#DB2777] text-white shadow-xs'
+              : 'text-[#9D4C6C] hover:bg-pink-50'
           }`}
         >
           <Utensils className="w-4 h-4" />
@@ -410,8 +456,8 @@ export const PazandaAI: React.FC = () => {
           onClick={() => setViewMode('catalog')}
           className={`py-2 rounded-xl text-[11px] font-extrabold transition-all flex flex-col items-center justify-center gap-0.5 min-h-[46px] ${
             viewMode === 'catalog'
-              ? 'bg-[#5A1827] text-white shadow-xs'
-              : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'bg-[#DB2777] text-white shadow-xs'
+              : 'text-[#9D4C6C] hover:bg-pink-50'
           }`}
         >
           <Book className="w-4 h-4" />
@@ -422,8 +468,8 @@ export const PazandaAI: React.FC = () => {
           onClick={() => setViewMode('bozorlik')}
           className={`py-2 rounded-xl text-[11px] font-bold transition-all flex flex-col items-center justify-center gap-0.5 min-h-[44px] relative ${
             viewMode === 'bozorlik'
-              ? 'bg-[#5A1827] text-white shadow-xs'
-              : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'bg-[#DB2777] text-white shadow-xs'
+              : 'text-[#9D4C6C] hover:bg-pink-50'
           }`}
         >
           <div className="relative">
@@ -441,8 +487,8 @@ export const PazandaAI: React.FC = () => {
           onClick={() => setViewMode('timer')}
           className={`py-2 rounded-xl text-[11px] font-bold transition-all flex flex-col items-center justify-center gap-0.5 min-h-[44px] ${
             viewMode === 'timer'
-              ? 'bg-[#5A1827] text-white shadow-xs'
-              : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'bg-[#DB2777] text-white shadow-xs'
+              : 'text-[#9D4C6C] hover:bg-pink-50'
           }`}
         >
           <TimerIcon className="w-4 h-4" />
@@ -454,7 +500,7 @@ export const PazandaAI: React.FC = () => {
       {viewMode === 'match' && (
         <div className="space-y-4">
 
-          {/* Search ingredients bar */}
+          {/* 1. Live Search & Clear Input */}
           <div className="relative">
             <Search className="w-4 h-4 text-[#8C8479] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -462,11 +508,101 @@ export const PazandaAI: React.FC = () => {
               value={ingredientSearch}
               onChange={e => setIngredientSearch(e.target.value)}
               placeholder={t("Masalliq nomini qidirish (kartoshka, tovuq, zira...)...")}
-              className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border border-[#EFE8DC] text-xs focus:outline-none focus:border-[#FF6B4A] shadow-2xs"
+              className="w-full pl-10 pr-9 py-2.5 rounded-2xl bg-white border border-[#EFE8DC] text-xs font-bold text-[#2E121D] focus:outline-none focus:border-[#DB2777] shadow-2xs"
             />
+            {ingredientSearch && (
+              <button
+                onClick={() => setIngredientSearch('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
-          {/* Ingredient Category Chips */}
+          {/* 2. Quick Dish Presets (1-tap setup) */}
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-black text-[#831843] uppercase tracking-wider block px-1">
+              ⚡ {t("Tezkor To'plamlar (1-bosishda tanlash)")}:
+            </span>
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+              {[
+                { 
+                  label: "🥘 Palov", 
+                  ids: ['ing_guruch', 'ing_sabzi', 'ing_piyoz', 'ing_qoy', 'ing_mol', 'ing_zira', 'ing_paxsa_yog'] 
+                },
+                { 
+                  label: "🥟 Somsa", 
+                  ids: ['ing_un', 'ing_piyoz', 'ing_mol', 'ing_qiyma', 'ing_dumba', 'ing_zira'] 
+                },
+                { 
+                  label: "🍲 Sho'rva", 
+                  ids: ['ing_mol', 'ing_qoy', 'ing_kartoshka', 'ing_sabzi', 'ing_piyoz', 'ing_pomidor'] 
+                },
+                { 
+                  label: "🥣 Manti", 
+                  ids: ['ing_un', 'ing_mol', 'ing_qiyma', 'ing_piyoz', 'ing_murch'] 
+                },
+                { 
+                  label: "🥗 Salat", 
+                  ids: ['ing_pomidor', 'ing_bodring', 'ing_kokatlar', 'ing_piyoz', 'ing_zaytun_yog'] 
+                }
+              ].map((preset, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setSelectedIngredientIds(prev => {
+                      const combined = new Set([...prev, ...preset.ids]);
+                      return Array.from(combined);
+                    });
+                    showToast(`${preset.label} ${t("masalliqlari tanlandi!")}`);
+                  }}
+                  className="px-2.5 py-1 rounded-xl text-xs font-extrabold bg-pink-50 text-[#DB2777] border border-pink-200 hover:bg-pink-100 transition-all shrink-0 active:scale-95 flex items-center gap-1"
+                >
+                  <span>{preset.label}</span>
+                  <Plus className="w-3 h-3 text-[#DB2777]" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 3. Selected Ingredients Badge Chips Bar */}
+          {selectedIngredientIds.length > 0 && (
+            <div className="bg-[#FFF5F7] p-2.5 rounded-2xl border border-[#FCE7F3] space-y-2">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-xs font-black text-[#831843] flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#DB2777]" />
+                  {t("Tanlangan masalliqlar")}: <strong className="text-[#DB2777]">{selectedIngredientIds.length} {t("ta")}</strong>
+                </span>
+                <button
+                  onClick={() => setSelectedIngredientIds([])}
+                  className="text-[11px] font-extrabold text-[#DB2777] hover:underline bg-white px-2 py-0.5 rounded-full border border-pink-200 shadow-2xs"
+                >
+                  {t("Barchasini tozalash")} ✕
+                </button>
+              </div>
+
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                {selectedIngredientIds.map(id => {
+                  const ing = ingredients.find(i => i.id === id);
+                  if (!ing) return null;
+                  return (
+                    <span
+                      key={id}
+                      onClick={() => toggleIngredient(id)}
+                      className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-white text-[#2E121D] border border-pink-300 shadow-2xs flex items-center gap-1 shrink-0 cursor-pointer hover:bg-pink-100 transition-colors"
+                    >
+                      <span>{ing.icon}</span>
+                      <span>{t(ing.nomi)}</span>
+                      <span className="text-[#DB2777] font-black ml-0.5">✕</span>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* 4. Category Filter Chips */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             {categoryLabels.map(cat => (
               <button
@@ -474,7 +610,7 @@ export const PazandaAI: React.FC = () => {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
-                    ? 'bg-[#2D2A26] text-white shadow-xs'
+                    ? 'bg-[#DB2777] text-white shadow-xs'
                     : 'bg-white text-[#6B6359] border border-[#EFE8DC] hover:bg-[#F9F5EE]'
                 }`}
               >
@@ -483,22 +619,8 @@ export const PazandaAI: React.FC = () => {
             ))}
           </div>
 
-          {/* Ingredient Selection Chips Grid */}
+          {/* 5. Ingredient Selection Chips Grid */}
           <div>
-            <div className="flex items-center justify-between mb-2 px-1">
-              <p className="text-xs font-extrabold text-[#4A443C]">
-                {t("Uydagi masalliqlar")}: <span className="text-[#FF6B4A]">{selectedIngredientIds.length} {t("ta tanlandi")}</span>
-              </p>
-              {selectedIngredientIds.length > 0 && (
-                <button
-                  onClick={() => setSelectedIngredientIds([])}
-                  className="text-xs text-orange-600 font-bold hover:underline"
-                >
-                  {t("Tozalash")}
-                </button>
-              )}
-            </div>
-
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
               {filteredIngredients.map(ing => {
                 const isSelected = selectedIngredientIds.includes(ing.id);
@@ -506,14 +628,14 @@ export const PazandaAI: React.FC = () => {
                   <button
                     key={ing.id}
                     onClick={() => toggleIngredient(ing.id)}
-                    className={`p-2.5 rounded-2xl border transition-all text-left flex flex-col items-center justify-center text-center relative min-h-[70px] ${
+                    className={`p-2.5 rounded-2xl border transition-all text-left flex flex-col items-center justify-center text-center relative min-h-[72px] ${
                       isSelected
-                        ? 'bg-[#FFF0EC] border-[#FF6B4A] text-[#2D2A26] font-extrabold shadow-2xs scale-98'
+                        ? 'bg-[#FFF0EC] border-[#FF6B4A] text-[#2D2A26] font-extrabold shadow-xs scale-98 ring-2 ring-[#FF6B4A]/30'
                         : 'bg-white border-[#EFE8DC] text-[#6B6359] hover:border-[#DCD4C7]'
                     }`}
                   >
                     {isSelected && (
-                      <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#FF6B4A] text-white flex items-center justify-center">
+                      <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#FF6B4A] text-white flex items-center justify-center shadow-xs">
                         <Check className="w-2.5 h-2.5 stroke-[3]" />
                       </div>
                     )}
@@ -1119,19 +1241,21 @@ export const PazandaAI: React.FC = () => {
         </div>
       )}
 
-      {/* Recipe Detail Modal */}
-      {activeRecipe && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200">
-          <div className="bg-[#FFFDF9] w-full max-w-md max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl p-5 space-y-4 border border-[#EFE8DC] shadow-2xl">
+      {/* Recipe Detail Modal Mounted via React Portal */}
+      {activeRecipe && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-black/75 backdrop-blur-xl flex items-end sm:items-center justify-center p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200">
+          <div className="bg-[#FFFDF9] w-full max-w-md max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl p-5 space-y-4 border border-[#EFE8DC] shadow-2xl relative">
             
-            <div className="flex items-center justify-between border-b border-[#EFE8DC] pb-3">
-              <button
+            {/* STICKY TOP MODAL HEADER */}
+            <div className="sticky top-0 z-30 flex items-center justify-between bg-[#FFFDF9]/95 backdrop-blur-md pb-3 pt-1 -mt-2 -mx-2 px-2 border-b border-[#EFE8DC]">
+              <motion.button
+                whileTap={{ scale: 0.93 }}
                 onClick={() => setActiveRecipe(null)}
-                className="p-1.5 text-[#6B6359] hover:bg-[#F2ECE1] rounded-full transition-colors flex items-center gap-1 text-xs font-bold"
+                className="px-3.5 py-1.5 text-[#DB2777] bg-pink-50 hover:bg-pink-100 rounded-full transition-colors flex items-center gap-1.5 text-xs font-extrabold border border-pink-200 shadow-2xs"
               >
                 <ArrowLeft className="w-4 h-4" />
                 {t("Orqaga")}
-              </button>
+              </motion.button>
 
               <div className="flex items-center gap-2">
                 <button
@@ -1155,6 +1279,9 @@ export const PazandaAI: React.FC = () => {
             <img
               src={activeRecipe.rasm_url}
               alt={activeRecipe.nomi}
+              onError={(e) => {
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80';
+              }}
               referrerPolicy="no-referrer"
               className="w-full h-48 object-cover rounded-2xl shadow-xs"
             />
@@ -1292,7 +1419,8 @@ export const PazandaAI: React.FC = () => {
             </button>
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Custom Dish Selector Sheet Modal */}
@@ -1378,6 +1506,172 @@ export const PazandaAI: React.FC = () => {
 
           </div>
         </div>
+      )}
+
+      {/* ALWAYS-FIXED FLOATING BOTTOM DOCK FOR MATCHED RECIPES */}
+      {viewMode === 'match' && selectedIngredientIds.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 30 }}
+          className="fixed bottom-[74px] left-3 right-3 z-40 max-w-md mx-auto shadow-2xl"
+        >
+          <div className="bg-[#1E1B18]/95 text-white p-3 rounded-2xl border border-amber-400/40 shadow-2xl flex items-center justify-between gap-3 backdrop-blur-xl">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
+                🍲
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-extrabold text-amber-300 leading-tight">
+                  {matchingResults.allMatches.length} {t("ta mos taom topildi")}
+                </p>
+                <p className="text-[10px] text-gray-300 truncate mt-0.5">
+                  {matchingResults.fullMatch.length} {t("ta 100% tayyor")} • {selectedIngredientIds.length} {t("ta masalliq")}
+                </p>
+              </div>
+            </div>
+
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={() => setShowMatchedRecipesModal(true)}
+              className="px-4 py-2.5 bg-gradient-to-r from-[#DB2777] to-[#F472B6] hover:from-[#BE185D] hover:to-[#DB2777] text-white text-xs font-black rounded-xl shadow-md shrink-0 flex items-center gap-1.5 active:scale-95 transition-all"
+            >
+              <Sparkles className="w-4 h-4 text-amber-200" />
+              <span>{t("Taomlarni Ko'rish")}</span>
+            </motion.button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* MATCHED RECIPES SHEET MODAL MOUNTED VIA PORTAL */}
+      {showMatchedRecipesModal && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-black/75 backdrop-blur-xl flex items-end sm:items-center justify-center p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200">
+          <div className="bg-[#FFFDF9] w-full max-w-md max-h-[88vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl p-5 space-y-4 border border-pink-100 shadow-2xl relative">
+            
+            <div className="sticky top-0 z-30 flex items-center justify-between bg-[#FFFDF9]/95 backdrop-blur-md pb-3 pt-1 -mt-2 -mx-2 px-2 border-b border-pink-100">
+              <span className="text-xs font-black text-[#831843] uppercase tracking-wider flex items-center gap-1.5">
+                <ChefHat className="w-4 h-4 text-[#DB2777]" />
+                {t("Mos Kelgan Taomlar")} ({matchingResults.allMatches.length})
+              </span>
+              <button
+                onClick={() => setShowMatchedRecipesModal(false)}
+                className="p-1.5 rounded-full bg-pink-50 hover:bg-pink-100 text-[#DB2777] transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-4 pt-1">
+              
+              {/* Group 1: 100% tayyorlanadi */}
+              {matchingResults.fullMatch.length > 0 && (
+                <div className="space-y-2">
+                  <span className="text-xs font-black text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+                    ✅ 100% {t("tayyorlanadigan taomlar")} ({matchingResults.fullMatch.length})
+                  </span>
+
+                  {matchingResults.fullMatch.map(({ recipe }) => (
+                    <div
+                      key={recipe.id}
+                      onClick={() => {
+                        setShowMatchedRecipesModal(false);
+                        setActiveRecipe(recipe);
+                      }}
+                      className="p-3 bg-white rounded-2xl border border-emerald-200 shadow-2xs hover:border-emerald-400 flex items-center gap-3 cursor-pointer transition-all"
+                    >
+                      <img src={recipe.rasm_url} alt={recipe.nomi} onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'; }} className="w-14 h-14 rounded-xl object-cover shadow-2xs" />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-extrabold text-xs text-[#2E121D] truncate">{t(recipe.nomi)}</h4>
+                        <p className="text-[11px] text-emerald-700 font-bold mt-0.5">⏱️ {recipe.tayyorlash_vaqti_daq} {t("daq")}</p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-emerald-600" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Group 2: Yana 1 ta mahsulot kerak */}
+              {matchingResults.missingOne.length > 0 && (
+                <div className="space-y-2 pt-2 border-t border-pink-100">
+                  <span className="text-xs font-black text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-200 inline-block">
+                    ⚠️ {t("Yana 1 ta mahsulot kerak")} ({matchingResults.missingOne.length})
+                  </span>
+
+                  {matchingResults.missingOne.map(({ recipe, missingNames }) => (
+                    <div
+                      key={recipe.id}
+                      onClick={() => {
+                        setShowMatchedRecipesModal(false);
+                        setActiveRecipe(recipe);
+                      }}
+                      className="p-3 bg-white rounded-2xl border border-amber-200 shadow-2xs hover:border-amber-400 flex items-center gap-3 cursor-pointer transition-all"
+                    >
+                      <img src={recipe.rasm_url} alt={recipe.nomi} onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'; }} className="w-14 h-14 rounded-xl object-cover shadow-2xs" />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-extrabold text-xs text-[#2E121D] truncate">{t(recipe.nomi)}</h4>
+                        <p className="text-[10px] text-amber-700 font-bold mt-0.5 truncate">
+                          {t("Yetmaydi")}: {missingNames.map(m => t(m)).join(', ')}
+                        </p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-amber-600" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Group 3: Boshqa mos taomlar */}
+              {matchingResults.partialMatch.length > 0 && (
+                <div className="space-y-2 pt-2 border-t border-pink-100">
+                  <span className="text-xs font-black text-rose-800 bg-rose-100 px-3 py-1 rounded-full border border-rose-200 inline-block">
+                    💡 {t("Qisman mos kelgan taomlar")} ({matchingResults.partialMatch.length})
+                  </span>
+
+                  {matchingResults.partialMatch.map(({ recipe, missingNames, matchPercent }) => (
+                    <div
+                      key={recipe.id}
+                      onClick={() => {
+                        setShowMatchedRecipesModal(false);
+                        setActiveRecipe(recipe);
+                      }}
+                      className="p-3 bg-white rounded-2xl border border-pink-200 shadow-2xs hover:border-pink-400 flex items-center gap-3 cursor-pointer transition-all"
+                    >
+                      <img src={recipe.rasm_url} alt={recipe.nomi} onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'; }} className="w-14 h-14 rounded-xl object-cover shadow-2xs" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-extrabold text-xs text-[#2E121D] truncate">{t(recipe.nomi)}</h4>
+                          <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded-md border border-rose-100">
+                            {matchPercent}% {t("mos")}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-gray-500 font-medium mt-0.5 truncate">
+                          {t("Yetmaydi")}: {missingNames.map(m => t(m)).join(', ')}
+                        </p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-rose-400" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {matchingResults.allMatches.length === 0 && (
+                <div className="text-center py-8 space-y-2">
+                  <p className="text-xs font-bold text-[#831843]">{t("Mos keladigan taom topilmadi")}</p>
+                  <p className="text-[11px] text-gray-500">{t("Ko'proq masalliq tanlang yoki tezkor to'plamlardan foydalaning.")}</p>
+                </div>
+              )}
+
+            </div>
+
+            <button
+              onClick={() => setShowMatchedRecipesModal(false)}
+              className="w-full py-3 bg-[#2D2A26] hover:bg-[#433E38] text-white text-xs font-black rounded-2xl shadow-xs transition-colors min-h-[44px]"
+            >
+              {t("Yopish")}
+            </button>
+
+          </div>
+        </div>,
+        document.body
       )}
 
     </div>

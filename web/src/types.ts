@@ -145,3 +145,9 @@ export interface ShoppingItem {
 }
 
 export type ActiveTab = 'home' | 'pazanda' | 'bolajon' | 'lifehacklar' | 'profil' | 'admin';
+
+// Type Aliases for compatibility
+export type Ertak = Tale;
+export type Topishmoq = Riddle;
+export type MatematikMasala = MathProblem;
+export type UserProfile = User;

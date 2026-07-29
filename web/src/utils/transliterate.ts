@@ -182,3 +182,7 @@ export function translateText(text: any, script: ScriptType): string {
   }
   return text;
 }
+
+export function t(text: any, script: ScriptType = 'lotin'): string {
+  return translateText(text, script);
+}

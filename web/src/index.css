@@ -2,30 +2,10 @@
 
 :root {
   --safe-top: calc(var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px)) + 14px);
-  --bg-primary: #FAF6F0;
-  --bg-card: #FFFFFF;
-  --text-primary: #1C1917;
-  --text-muted: #78716C;
-  --accent-burgundy: #5A1827;
-  --accent-burgundy-dark: #3E101B;
-  --accent-burgundy-light: #8B263E;
-  --accent-amber: #F59E0B;
-  --accent-amber-hover: #D97706;
-  --border-light: #EFEADF;
-  --shadow-soft: 0 10px 30px -5px rgba(90, 24, 39, 0.07), 0 2px 6px rgba(0, 0, 0, 0.02);
-  --radius-card: 20px;
-}
-
-/* Dark Mode Overrides */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary: #0F0E13;
-    --bg-card: #191821;
-    --text-primary: #FAFAFA;
-    --text-muted: #A1A1AA;
-    --border-light: #2A2836;
-    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-  }
+  --bg-primary: #FFF5F7;
+  --text-primary: #2E121D;
+  --accent-rose: #DB2777;
+  --accent-gold: #F59E0B;
 }
 
 @layer base {
@@ -33,8 +13,8 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: #FFF5F7;
+    color: #2E121D;
     letter-spacing: -0.01em;
   }
 
@@ -44,7 +24,7 @@
   }
 }
 
-/* Custom scrollbar for horizontal carousel & rows */
+/* Hide scrollbars for clean horizontal scrolling UI */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -53,116 +33,122 @@
   scrollbar-width: none;
 }
 
-/* Luxurious Rich Apple/Yandex Style UI Components */
-.card-premium {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* ==========================================
+   Luxurious Rose Pink, Soft Gold & White Design System
+   ========================================== */
+
+/* Premium Card - Crisp White with Soft Layered Depth & Smooth Physics */
+.card-premium, .card-pink {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(252, 231, 243, 0.8);
+  border-radius: 1.25rem; /* 20px */
+  box-shadow: 0 4px 20px -2px rgba(219, 39, 119, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
-.card-premium:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 35px -5px rgba(90, 24, 39, 0.12);
+.card-premium:hover, .card-pink:hover {
+  border-color: #F472B6;
+  box-shadow: 0 10px 28px -4px rgba(219, 39, 119, 0.14), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
 }
 
-.card-burgundy-banner {
-  background: linear-gradient(135deg, #5A1827 0%, #3B0A15 50%, #20040A 100%);
-  border-radius: var(--radius-card);
+.card-premium:active, .card-pink:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease-out;
+}
+
+/* Rose Banner Gradient with Depth */
+.card-burgundy-banner, .card-rose-banner {
+  background: linear-gradient(135deg, #EC4899 0%, #DB2777 50%, #BE185D 100%);
+  border-radius: 1.25rem; /* 20px */
   color: #FFFFFF;
-  box-shadow: 0 12px 30px -5px rgba(90, 24, 39, 0.35);
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 10px 30px -4px rgba(219, 39, 119, 0.38), 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.card-burgundy-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.btn-primary-burgundy {
-  background: linear-gradient(135deg, #5A1827 0%, #7A2135 100%);
+/* Rose Button with Tactile Physics */
+.btn-burgundy-pill, .btn-rose-pill {
+  background-color: #DB2777;
   color: #FFFFFF;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 9999px;
-  box-shadow: 0 6px 18px rgba(90, 24, 39, 0.3);
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(219, 39, 119, 0.32);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
 
-.btn-primary-burgundy:hover {
-  background: linear-gradient(135deg, #3E101B 0%, #5A1827 100%);
+.btn-burgundy-pill:hover, .btn-rose-pill:hover {
+  background-color: #BE185D;
   transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(90, 24, 39, 0.4);
+  box-shadow: 0 6px 18px rgba(219, 39, 119, 0.42);
 }
 
-.btn-primary-burgundy:active {
-  transform: translateY(1px);
+.btn-burgundy-pill:active, .btn-rose-pill:active {
+  transform: scale(0.96) translateY(0px);
+  transition: transform 0.08s ease-out;
 }
 
-.btn-amber-cta {
+/* Warm Amber Gold CTA Button */
+.btn-gold-pill {
   background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
   color: #FFFFFF;
   font-weight: 700;
   border-radius: 9999px;
-  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.38);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
 
-.btn-amber-cta:hover {
+.btn-gold-pill:hover {
+  background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
   transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.45);
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.48);
 }
 
-/* Floating Glassmorphism Bottom Nav */
-.glass-nav {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(239, 234, 223, 0.8);
-  box-shadow: 0 -4px 25px rgba(90, 24, 39, 0.08);
+.btn-gold-pill:active {
+  transform: scale(0.96) translateY(0px);
+  transition: transform 0.08s ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  .glass-nav {
-    background: rgba(25, 24, 33, 0.92);
-    border-color: rgba(42, 40, 54, 0.8);
-    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
-  }
-}
-
-/* Badge Pro Pill */
+/* Premium Gold Badge */
 .badge-gold {
-  background: linear-gradient(135deg, #F59E0B 0%, #B45309 100%);
-  color: #FFFFFF;
-  font-size: 10px;
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+  color: #451A03;
   font-weight: 800;
-  padding: 2px 8px;
   border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+  padding: 0.15rem 0.6rem;
+  letter-spacing: 0.02em;
+  font-size: 0.75rem;
 }
 
-/* Shimmer Loading Skeleton */
-.skeleton {
-  background: linear-gradient(90deg, #EFEADF 25%, #FAF6F0 50%, #EFEADF 75%);
+/* Apple Glassmorphism Utilities */
+.glass-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(252, 231, 243, 0.7);
+}
+
+.glass-nav, .glass-dock {
+  background: linear-gradient(135deg, rgba(190, 24, 93, 0.94) 0%, rgba(219, 39, 119, 0.94) 50%, rgba(190, 24, 93, 0.94) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 36px rgba(190, 24, 93, 0.38), 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Skeleton Loading Shimmer */
+.skeleton-loader {
+  background: linear-gradient(90deg, #FCE7F3 25%, #FDF2F7 50%, #FCE7F3 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .skeleton {
-    background: linear-gradient(90deg, #2A2836 25%, #191821 50%, #2A2836 75%);
-    background-size: 200% 100%;
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
   }
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  100% {
+    background-position: -200% 0;
+  }
 }

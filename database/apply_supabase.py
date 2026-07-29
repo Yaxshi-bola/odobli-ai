@@ -2,10 +2,10 @@ import urllib.request
 import json
 import os
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
-TOKEN = os.getenv("SUPABASE_ACCESS_TOKEN", "")
-PROJECT_REF = os.getenv("SUPABASE_PROJECT_REF", "")
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://mjenunxgakcvyzcikjmi.supabase.co")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
+TOKEN = os.environ.get("SUPABASE_TOKEN", "")
+PROJECT_REF = os.environ.get("SUPABASE_PROJECT_REF", "mjenunxgakcvyzcikjmi")
 
 def execute_sql(sql_content):
     headers = {
