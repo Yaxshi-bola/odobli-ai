@@ -211,20 +211,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [selectedAgeFilter, setSelectedAgeFilter] = useState<string>('Barchasi');
 
-  // Datasets safely initialized with Array.isArray checks and auto-merging of new system items
+  // Datasets safely initialized with Array.isArray checks and fresh system item mapping
   const [ingredients, setIngredients] = useState<Ingredient[]>(() => {
-    const saved = loadStorage<Ingredient[]>('ingredients', initialIngredients);
+    const saved = loadStorage<Ingredient[]>('ingredients', []);
     if (!Array.isArray(saved) || saved.length === 0) return initialIngredients;
-    const savedIds = new Set(saved.map(i => i.id));
-    const missing = initialIngredients.filter(i => !savedIds.has(i.id));
-    return missing.length > 0 ? [...saved, ...missing] : saved;
+    const systemIds = new Set(initialIngredients.map(i => i.id));
+    const custom = saved.filter(i => !systemIds.has(i.id));
+    return [...initialIngredients, ...custom];
   });
   const [recipes, setRecipes] = useState<Recipe[]>(() => {
-    const saved = loadStorage<Recipe[]>('recipes', initialRecipes);
+    const saved = loadStorage<Recipe[]>('recipes', []);
     if (!Array.isArray(saved) || saved.length === 0) return initialRecipes;
-    const savedIds = new Set(saved.map(r => r.id));
-    const missing = initialRecipes.filter(r => !savedIds.has(r.id));
-    return missing.length > 0 ? [...saved, ...missing] : saved;
+    const systemIds = new Set(initialRecipes.map(r => r.id));
+    const custom = saved.filter(r => !systemIds.has(r.id));
+    return [...initialRecipes, ...custom];
   });
   const [tales, setTales] = useState<Tale[]>(() => {
     const saved = loadStorage<Tale[]>('tales', initialTales);
